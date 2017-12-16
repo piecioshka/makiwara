@@ -1,0 +1,64 @@
+{
+    "name": "makiwara",
+    "description": "Kick off HTTP request attack to URL with summary",
+    "version": "1.0.0",
+    "license": "MIT",
+    "author": {
+        "name": "Piotr Kowalski",
+        "email": "piecioshka@gmail.com",
+        "url": "https://piecioshka.pl/"
+    },
+    "scripts": {
+        "clear": "rm -rf dist/ coverage/",
+        "clear:all": "rm -rf node_modules/ && npm run clear",
+        "test": "npm run test:unit",
+        "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
+        "coverage": "istanbul cover jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
+        "count": "find . -name '*.js' -not -path './node_modules/*' | xargs wc -l | sort -r",
+        "lint": "eslint ./ ; exit 0"
+    },
+    "dependencies": {
+        "axios": "^0.17.1",
+        "commander": "^2.12.2",
+        "http-status-codes": "^1.3.0",
+        "ora": "^1.3.0",
+        "table": "^4.0.2"
+    },
+    "devDependencies": {
+        "eslint": "^4.4.1",
+        "eslint-config-piecioshka": "^2.0.0",
+        "istanbul": "^0.4.5",
+        "jasmine": "^2.7.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/piecioshka/makiwara.git"
+    },
+    "bugs": {
+        "url": "https://github.com/piecioshka/makiwara/issues"
+    },
+    "files": [
+        ".bin",
+        "src",
+        "index.js",
+        "package.json",
+        "README.md"
+    ],
+    "keywords": [
+        "app",
+        "test",
+        "attack",
+        "multi",
+        "statistics",
+        "summary",
+        "metrics",
+        "verify",
+        "request",
+        "time",
+        "analyze",
+        "cli",
+        "commonjs"
+    ],
+    "main": "./index.js",
+    "bin": "./.bin/cli.js"
+}
