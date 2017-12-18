@@ -1,7 +1,7 @@
 {
     "name": "makiwara",
     "description": "Test URL to gain HTTP response limits in time thresholds",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "license": "MIT",
     "author": {
         "name": "Piotr Kowalski",
