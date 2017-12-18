@@ -1,5 +1,5 @@
 function collapseArray(array) {
-    const hashmap = array.reduce((mem, item) => {
+    const hashMap = array.reduce((mem, item) => {
         if (!mem[item]) {
             mem[item] = 0;
         }
@@ -7,7 +7,7 @@ function collapseArray(array) {
         return mem;
     }, {});
 
-    const entries = Object.entries(hashmap);
+    const entries = Object.entries(hashMap);
 
     entries.forEach((entry) => {
         entry[0] = Number(entry[0]);

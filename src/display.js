@@ -1,46 +1,70 @@
 const { table } = require('table');
-
-const { getDiffTime } = require('./time-box');
 const HTTPStatusCodes = require('http-status-codes');
+const bold = require('ansi-bold');
+
+const { collapseArray } = require('./object-util');
+
+const tableOptions = {
+    columns: {
+        0: { width: 20 },
+        1: { width: 25 }
+    }
+};
 
 function appendHttpStatusCodeLabel(statusCodeEntries) {
     statusCodeEntries.forEach((entry) => {
-        const label = HTTPStatusCodes.getStatusText([entry[0]]);
+        let label = null;
+        try {
+            label = HTTPStatusCodes.getStatusText(entry[0]);
+        } catch (err) {
+            console.red(err);
+        }
         if (typeof label === 'string') {
             entry[0] = `${entry[0]} ${label}`;
         }
     });
 }
 
-function displayHeader() {
-    console.log(`Test are started on ${new Date().toISOString()}\n`);
+function displayRequestsSummary(attackResults) {
+    const statusCodes = collapseArray(attackResults.requests.map(r => r.statusCode));
+    const isEmptyResults = (statusCodes.length === 0);
+
+    console.cyan('Requests summary:');
+    if (isEmptyResults) {
+        console.log('  No request were sent\n');
+    } else {
+        appendHttpStatusCodeLabel(statusCodes);
+        const data = [['HTTP Status Code', 'Quantity'].map(bold)]
+            .concat(statusCodes);
+        console.log(table(data, tableOptions));
+    }
 }
 
-function displayResults(statusCodes) {
-    console.log('Results board:\n');
+function displayAttackSummary(attackResults) {
+    console.cyan('Attack summary:');
+    const meta = [];
+    meta.push(['Start time', new Date(attackResults.startTime).toISOString()]);
+    meta.push(['End time', new Date(attackResults.endTime).toISOString()]);
+    meta.push(['Duration', `${(attackResults.endTime - attackResults.startTime)} ms`]);
+    meta.push(['Time limit', `${attackResults.limit * 1000} ms`]);
+    const average = (attackResults.limit * 1000 / attackResults.requests.length);
+    const averageVerbose = Number.isFinite(average)
+        ? `${average.toFixed(3)} ms/req.`
+        : '-';
+    meta.push(['Avg. request time', averageVerbose]);
+    console.log(table(meta, tableOptions));
+}
 
-    appendHttpStatusCodeLabel(statusCodes);
-
-    const data = [['HTTP Status Code', 'Quantity']].concat(statusCodes);
-    const output = table(data);
-
-    console.log(output);
-    displayTimeBox(statusCodes);
+function displaySummary(attackResults) {
+    displayRequestsSummary(attackResults);
+    displayAttackSummary(attackResults);
 }
 
 function displayError(err) {
     console.log(`${err.name}: ${err.message}\n`);
-    displayTimeBox();
-}
-
-function displayTimeBox(statusCodes) {
-    const average = getDiffTime() / statusCodes.reduce((m, i) => m + i[1], 0);
-    console.log(` - Average of request time: ${average} ms`);
-    console.log(`\nTest are finished on ${new Date().toISOString()}\n`);
 }
 
 module.exports = {
-    displayHeader,
-    displayResults,
+    displaySummary,
     displayError
 };

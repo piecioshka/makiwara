@@ -1,9 +1,9 @@
 const { makeRequests } = require('./src/make-requests');
-const { collapseArray } = require('./src/object-util');
 
-async function attack(quantity, url) {
-    const statusCodes = await makeRequests(quantity, url);
-    return collapseArray(statusCodes);
+require('./src/color-logs');
+
+function attack(url, times) {
+    return Promise.all(times.map((time) => makeRequests(url, time)));
 }
 
 module.exports = {

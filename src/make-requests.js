@@ -1,6 +1,6 @@
 const request = require('axios');
 
-async function makeRequest(url) {
+async function fetchStatusCode(url) {
     try {
         const response = await request.get(url);
         return response.status;
@@ -13,21 +13,44 @@ async function makeRequest(url) {
     }
 }
 
-async function makeRequests(quantity, url) {
-    quantity = Number(quantity);
+async function makeRequests(url, timeLimit) {
+    timeLimit = Number(timeLimit);
 
-    if (Number.isNaN(quantity)) {
-        throw new TypeError('Put numer of request (as digits)');
+    if (Number.isNaN(timeLimit)) {
+        throw new TypeError('Put numer of limit time of making requests (ex. 1,3,5)');
     }
 
-    const result = [];
+    const millisecondTimeLimit = timeLimit * 1000;
+    const requests = [];
+    const startTime = Date.now();
 
-    for (let i = 0; i < quantity; i++) {
-        const statisticResponse = await makeRequest(url);
-        result.push(statisticResponse);
+    while (true) {
+        const startRequestTime = Date.now();
+        const statusCode = await fetchStatusCode(url);
+        const endRequestTime = Date.now();
+        const requestDuration = (endRequestTime - startRequestTime);
+
+        const diffTime = (endRequestTime - startTime);
+        const duration = (diffTime - millisecondTimeLimit);
+
+        if (duration > 0) {
+            break;
+        }
+
+        requests.push({
+            statusCode,
+            duration: requestDuration
+        });
     }
 
-    return result;
+    const endTime = Date.now();
+
+    return {
+        startTime,
+        endTime,
+        limit: timeLimit,
+        requests
+    };
 }
 
 module.exports = {

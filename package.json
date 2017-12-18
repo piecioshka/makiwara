@@ -1,7 +1,7 @@
 {
     "name": "makiwara",
-    "description": "Kick off HTTP request attack to URL with summary",
-    "version": "1.0.0",
+    "description": "Test URL to gain HTTP response limits in time thresholds",
+    "version": "2.0.0",
     "license": "MIT",
     "author": {
         "name": "Piotr Kowalski",
@@ -18,9 +18,15 @@
         "lint": "eslint ./ ; exit 0"
     },
     "dependencies": {
+        "ansi-bold": "^0.1.1",
+        "ansi-cyan": "^0.1.1",
+        "ansi-gray": "^0.1.1",
+        "ansi-red": "^0.1.1",
+        "ansi-yellow": "^0.1.1",
         "axios": "^0.17.1",
         "commander": "^2.12.2",
         "http-status-codes": "^1.3.0",
+        "is-url": "^1.2.2",
         "ora": "^1.3.0",
         "table": "^4.0.2"
     },
