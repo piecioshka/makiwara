@@ -47,9 +47,9 @@ function displayAttackSummary(attackResults) {
     const meta = [];
     meta.push(['Start time', new Date(attackResults.startTime).toISOString()]);
     meta.push(['End time', new Date(attackResults.endTime).toISOString()]);
-    meta.push(['Duration', `${(attackResults.endTime - attackResults.startTime)} ms`]);
+    meta.push(['Duration', `${(attackResults.duration)} ms`]);
     meta.push(['Time limit', `${attackResults.limit * 1000} ms`]);
-    const average = (attackResults.limit * 1000 / attackResults.requests.length);
+    const average = (attackResults.duration / attackResults.requests.length);
     const averageVerbose = Number.isFinite(average)
         ? `${average.toFixed(3)} ms/req.`
         : '-';

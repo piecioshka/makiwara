@@ -42,9 +42,9 @@ async function makeRequests(url, limit) {
         const requestDuration = (endRequestTime - startRequestTime);
 
         const diffTime = (endRequestTime - startTime);
-        const duration = (diffTime - millisecondTimeLimit);
+        const offset = (diffTime - millisecondTimeLimit);
 
-        if (duration > 0) {
+        if (offset > 0) {
             break;
         }
 
@@ -55,11 +55,13 @@ async function makeRequests(url, limit) {
     }
 
     const endTime = Date.now();
+    const duration = endTime - startTime;
 
     return {
         startTime,
         endTime,
         limit,
+        duration,
         requests
     };
 }
