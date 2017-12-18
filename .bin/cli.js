@@ -35,7 +35,7 @@ const times = program.times.split(',').map(Number);
 const spinner = ora('Loading').start();
 
 function displayDelimiter() {
-    console.gray('---------------------------------------------------\n');
+    console.gray('----------------------------------------------------\n');
 }
 
 attack(url, times)
