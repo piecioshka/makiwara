@@ -1,9 +1,11 @@
-function setupColorLog(name) {
+'use strict';
+
+function setupColorLogFunction(name) {
     const fn = require(`ansi-${name}`);
     console[name] = (...args) => console.log(...args.map(fn));
 }
 
-setupColorLog('red');
-setupColorLog('yellow');
-setupColorLog('gray');
-setupColorLog('cyan');
+setupColorLogFunction('red');
+setupColorLogFunction('yellow');
+setupColorLogFunction('gray');
+setupColorLogFunction('cyan');

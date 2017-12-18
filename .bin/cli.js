@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+'use strict';
+
 const program = require('commander');
 const ora = require('ora');
 const isUrl = require('is-url');

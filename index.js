@@ -1,3 +1,5 @@
+'use strict';
+
 const { makeRequests } = require('./src/make-requests');
 
 require('./src/color-logs');

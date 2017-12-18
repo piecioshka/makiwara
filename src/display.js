@@ -1,3 +1,5 @@
+'use strict';
+
 const { table } = require('table');
 const HTTPStatusCodes = require('http-status-codes');
 const bold = require('ansi-bold');
@@ -29,7 +31,7 @@ function displayRequestsSummary(attackResults) {
     const statusCodes = collapseArray(attackResults.requests.map(r => r.statusCode));
     const isEmptyResults = (statusCodes.length === 0);
 
-    console.cyan('Requests summary:');
+    console.cyan(`Requests summary of ${attackResults.limit} second(s):`);
     if (isEmptyResults) {
         console.log('  No request were sent\n');
     } else {
@@ -41,7 +43,7 @@ function displayRequestsSummary(attackResults) {
 }
 
 function displayAttackSummary(attackResults) {
-    console.cyan('Attack summary:');
+    console.cyan(`Attack summary of ${attackResults.limit} second(s):`);
     const meta = [];
     meta.push(['Start time', new Date(attackResults.startTime).toISOString()]);
     meta.push(['End time', new Date(attackResults.endTime).toISOString()]);

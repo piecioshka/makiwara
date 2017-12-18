@@ -1,5 +1,11 @@
+'use strict';
+
 const request = require('axios');
 
+/**
+ * @param {string} url
+ * @returns {Promise}
+ */
 async function fetchStatusCode(url) {
     try {
         const response = await request.get(url);
@@ -13,14 +19,19 @@ async function fetchStatusCode(url) {
     }
 }
 
-async function makeRequests(url, timeLimit) {
-    timeLimit = Number(timeLimit);
+/**
+ * @param {string} url
+ * @param {number} limit - In seconds
+ * @returns {Promise}
+ */
+async function makeRequests(url, limit) {
+    limit = Number(limit);
 
-    if (Number.isNaN(timeLimit)) {
+    if (Number.isNaN(limit)) {
         throw new TypeError('Put numer of limit time of making requests (ex. 1,3,5)');
     }
 
-    const millisecondTimeLimit = timeLimit * 1000;
+    const millisecondTimeLimit = limit * 1000;
     const requests = [];
     const startTime = Date.now();
 
@@ -48,7 +59,7 @@ async function makeRequests(url, timeLimit) {
     return {
         startTime,
         endTime,
-        limit: timeLimit,
+        limit,
         requests
     };
 }
