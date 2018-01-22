@@ -7,40 +7,51 @@ const ora = require('ora');
 const isUrl = require('is-url');
 const bold = require('ansi-bold');
 
-const version = require('../package.json').version;
+const pkg = require('../package');
 const { attack } = require('../index');
 const { displaySummary, displayError } = require('../src/display');
 
 program
-    .version(version)
-    .option('-u, --url <url>', 'Define URL to attack')
-    .option('-t, --times [times]', 'Define list of time thresholds (in seconds)')
+    .version(pkg.version)
+    .option('-u, --url <url>', 'Define URL to attack. Ex. http://example.org/')
+    .option('-t, --timelimit [numbers]', 'Define list of time thresholds (in seconds). Ex. 10,100,1000')
     .parse(process.argv);
 
 if (typeof program.url !== 'string') {
-    throw new TypeError('url is required and should be a string');
+    console.red('ERROR: url is not a string');
+    program.help();
 }
 
 if (!isUrl(program.url)) {
-    throw new TypeError(`url is not correct format`);
+    console.red(`ERROR: url is not correct format`);
+    program.help();
 }
 
-if (!program.times) {
-    program.times = '1,3,5';
-    console.yellow('Ups... you did not put times of thresholds');
-    console.yellow(`Thresholds are sets to: ${bold(program.times)} (seconds)\n`);
+if (!program.timelimit) {
+    program.timelimit = '1,3,5';
+    console.yellow('Ups... you did not put "timelimit" of thresholds');
+    console.yellow(`Thresholds are sets to: ${bold(program.timelimit)} (seconds)\n`);
 }
 
 const url = program.url;
-const times = program.times.split(',').map(Number);
-
-const spinner = ora('Loading').start();
+const timeLimit = program.timelimit.split(',').map(Number);
 
 function displayDelimiter() {
     console.gray('----------------------------------------------------\n');
 }
 
-attack(url, times)
+function displayHeader() {
+    console.log(`${pkg.name}, Version ${pkg.version}`);
+    console.log(`Copyright 2017 ${pkg.author.name} <${pkg.author.email}> ${pkg.author.url}`);
+    console.log(`The ${pkg.license} License, https://piecioshka.mit-license.org/\n`);
+    console.log(`> ${pkg.description}\n`);
+}
+
+displayHeader();
+
+const spinner = ora('Loading').start();
+
+attack(url, timeLimit)
     .then((results) => {
         spinner.stop();
         results.forEach((result, index) => {

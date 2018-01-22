@@ -4,7 +4,7 @@
 ![](https://img.shields.io/npm/dt/makiwara.svg)
 [![Travis](https://img.shields.io/travis/piecioshka/makiwara.svg?maxAge=2592000)](https://travis-ci.org/piecioshka/makiwara)
 
-> :hammer: Test URL to gain HTTP response limits in time thresholds
+> :hammer: Benchmark URL to gain HTTP requests limits
 
 ## Install
 

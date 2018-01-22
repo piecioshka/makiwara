@@ -1,6 +1,6 @@
 {
     "name": "makiwara",
-    "description": "Test URL to gain HTTP response limits in time thresholds",
+    "description": "Benchmark URL to gain HTTP requests limits",
     "version": "2.0.3",
     "license": "MIT",
     "author": {

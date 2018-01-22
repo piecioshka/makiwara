@@ -21,17 +21,17 @@ async function fetchStatusCode(url) {
 
 /**
  * @param {string} url
- * @param {number} limit - In seconds
+ * @param {number} durationLimit - In seconds
  * @returns {Promise}
  */
-async function makeRequests(url, limit) {
-    limit = Number(limit);
+async function makeRequests(url, durationLimit) {
+    durationLimit = Number(durationLimit);
 
-    if (Number.isNaN(limit)) {
-        throw new TypeError('Put numer of limit time of making requests (ex. 1,3,5)');
+    if (Number.isNaN(durationLimit)) {
+        throw new TypeError('Put numer of durationLimit time of making requests (ex. 1,3,5)');
     }
 
-    const millisecondTimeLimit = limit * 1000;
+    const millisecondTimeLimit = durationLimit * 1000;
     const requests = [];
     const startTime = Date.now();
 
@@ -60,7 +60,7 @@ async function makeRequests(url, limit) {
     return {
         startTime,
         endTime,
-        limit,
+        durationLimit,
         duration,
         requests
     };

@@ -9,7 +9,7 @@ const { collapseArray } = require('./object-util');
 const tableOptions = {
     columns: {
         0: { width: 20 },
-        1: { width: 25 }
+        1: { width: 30 }
     }
 };
 
@@ -31,29 +31,22 @@ function displayRequestsSummary(attackResults) {
     const statusCodes = collapseArray(attackResults.requests.map(r => r.statusCode));
     const isEmptyResults = (statusCodes.length === 0);
 
-    console.cyan(`Requests summary of ${attackResults.limit} second(s):`);
     if (isEmptyResults) {
         console.log('  No request were sent\n');
     } else {
         appendHttpStatusCodeLabel(statusCodes);
-        const data = [['HTTP Status Code', 'Quantity'].map(bold)]
+        const data = [['HTTP Status Code', 'Requests quantity'].map(bold)]
             .concat(statusCodes);
         console.log(table(data, tableOptions));
     }
 }
 
 function displayAttackSummary(attackResults) {
-    console.cyan(`Attack summary of ${attackResults.limit} second(s):`);
     const meta = [];
-    meta.push(['Start time', new Date(attackResults.startTime).toISOString()]);
-    meta.push(['End time', new Date(attackResults.endTime).toISOString()]);
-    meta.push(['Duration', `${(attackResults.duration)} ms`]);
-    meta.push(['Time limit', `${attackResults.limit * 1000} ms`]);
-    const average = (attackResults.duration / attackResults.requests.length);
-    const averageVerbose = Number.isFinite(average)
-        ? `${average.toFixed(3)} ms/req.`
-        : '-';
-    meta.push(['Avg. request time', averageVerbose]);
+    meta.push(['Concurrency Level', 1]);
+    meta.push(['Time taken for tests', `${(attackResults.duration / 1000).toLocaleString()} seconds`]);
+    const rps = (attackResults.requests.length / attackResults.duration * 1000);
+    meta.push(['Requests per second', `${rps.toFixed(3)} [#/sec] (mean)`]);
     console.log(table(meta, tableOptions));
 }
 
