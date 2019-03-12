@@ -9,3 +9,11 @@ setupColorLogFunction('red');
 setupColorLogFunction('yellow');
 setupColorLogFunction('gray');
 setupColorLogFunction('cyan');
+
+/**
+ * @type console
+ * @property red
+ * @property yellow
+ * @property gray
+ * @property cyan
+ */

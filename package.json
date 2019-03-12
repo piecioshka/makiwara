@@ -15,7 +15,7 @@
         "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
         "coverage": "istanbul cover jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
         "count": "find . -name '*.js' -not -path './node_modules/*' | xargs wc -l | sort -r",
-        "lint": "eslint ./ ; exit 0"
+        "lint": "eslint ./"
     },
     "dependencies": {
         "ansi-bold": "^0.1.1",

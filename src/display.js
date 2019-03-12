@@ -28,7 +28,9 @@ function appendHttpStatusCodeLabel(statusCodeEntries) {
 }
 
 function displayRequestsSummary(attackResults) {
-    const statusCodes = collapseArray(attackResults.requests.map(r => r.statusCode));
+    const statusCodes = collapseArray(
+        attackResults.requests.map((r) => r.statusCode)
+    );
     const isEmptyResults = (statusCodes.length === 0);
 
     if (isEmptyResults) {

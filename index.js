@@ -6,8 +6,11 @@ require('./src/color-logs');
 
 function attack(url, timeLimits) {
     // Remove zeros timeLimits
-    timeLimits = timeLimits.filter(k => k);
-    return Promise.all(timeLimits.map((duration) => makeRequests(url, duration)));
+    return Promise.all(
+        timeLimits
+            .filter((k) => k)
+            .map((duration) => makeRequests(url, duration))
+    );
 }
 
 module.exports = {

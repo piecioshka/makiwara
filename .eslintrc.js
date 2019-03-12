@@ -18,6 +18,10 @@ module.exports = {
 
     // http://eslint.org/docs/rules/
     rules: {
+        'no-console': ['off'],
+        'no-magic-numbers': ['off', { "ignore": [0, 1] }],
+        'require-jsdoc': ['off'],
+        'object-curly-newline': ['off'],
         'no-implicit-globals': ['off'],
         'global-require': ['off']
     },

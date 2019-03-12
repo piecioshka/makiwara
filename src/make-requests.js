@@ -13,9 +13,8 @@ async function fetchStatusCode(url) {
     } catch (err) {
         if (err.response) {
             return err.response.status;
-        } else {
-            return 0;
         }
+        return 0;
     }
 }
 
