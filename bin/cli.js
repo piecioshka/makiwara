@@ -11,9 +11,9 @@ const isUrl = require('is-url');
 const bold = require('ansi-bold');
 
 // eslint-disable-next-line no-sync
-const pkg = fs.readFileSync(
+const pkg = JSON.parse(fs.readFileSync(
     path.join(__dirname, '..', 'package.json')
-).toJSON();
+).toString());
 const { attack } = require('../index');
 const { displaySummary, displayError } = require('../src/display');
 
