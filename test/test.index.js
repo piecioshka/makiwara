@@ -1,6 +1,6 @@
 'use strict';
 
-const { attack } = require('../../../');
+const { attack } = require('..');
 const HTTPStatusCodes = require('http-status-codes');
 
 const EXAMPLE_URL = 'http://example.org';
