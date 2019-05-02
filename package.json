@@ -11,30 +11,32 @@
     "scripts": {
         "clear": "rm -rf dist/ coverage/",
         "clear:all": "rm -rf node_modules/ && npm run clear",
-        "test": "npm run test:unit",
-        "test:unit": "jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
-        "coverage": "istanbul cover jasmine JASMINE_CONFIG_PATH=test/unit/jasmine.json",
+        "test": "jasmine test/**",
+        "coverage": "nyc npm run test && nyc report --reporter=html",
+        "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
         "count": "find . -name '*.js' -not -path './node_modules/*' | xargs wc -l | sort -r",
-        "lint": "eslint ./"
+        "lint": "eslint ."
     },
     "dependencies": {
+        "@types/node": "^11.13.8",
         "ansi-bold": "^0.1.1",
         "ansi-cyan": "^0.1.1",
         "ansi-gray": "^0.1.1",
         "ansi-red": "^0.1.1",
         "ansi-yellow": "^0.1.1",
-        "axios": "^0.17.1",
-        "commander": "^2.12.2",
-        "http-status-codes": "^1.3.0",
-        "is-url": "^1.2.2",
-        "ora": "^1.3.0",
-        "table": "^4.0.2"
+        "axios": "^0.18.0",
+        "commander": "^2.20.0",
+        "http-status-codes": "^1.3.2",
+        "is-url": "^1.2.4",
+        "ora": "^3.4.0",
+        "table": "^5.2.3"
     },
     "devDependencies": {
-        "eslint": "^4.4.1",
-        "eslint-config-piecioshka": "^2.0.0",
-        "istanbul": "^0.4.5",
-        "jasmine": "^2.7.0"
+        "codecov": "^3.3.0",
+        "eslint": "^5.16.0",
+        "eslint-config-piecioshka": "^2.0.1",
+        "jasmine": "^3.4.0",
+        "nyc": "^14.0.0"
     },
     "repository": {
         "type": "git",
@@ -44,7 +46,7 @@
         "url": "https://github.com/piecioshka/makiwara/issues"
     },
     "files": [
-        ".bin",
+        "bin",
         "src",
         "index.js",
         "package.json",
@@ -66,5 +68,5 @@
         "commonjs"
     ],
     "main": "./index.js",
-    "bin": "./.bin/cli.js"
+    "bin": "./bin/cli.js"
 }
