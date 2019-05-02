@@ -2,12 +2,14 @@
 
 'use strict';
 
+const fs = require('fs');
 const program = require('commander');
 const ora = require('ora');
 const isUrl = require('is-url');
 const bold = require('ansi-bold');
 
-const pkg = require('../package');
+// eslint-disable-next-line no-sync
+const pkg = fs.readFileSync('../package.json').toJSON();
 const { attack } = require('../index');
 const { displaySummary, displayError } = require('../src/display');
 
