@@ -1,15 +1,17 @@
 # makiwara ([npm](https://www.npmjs.com/package/makiwara))
 
 [![npm version](https://badge.fury.io/js/makiwara.svg)](https://badge.fury.io/js/makiwara)
-![](https://img.shields.io/npm/dt/makiwara.svg)
-[![Travis](https://img.shields.io/travis/piecioshka/makiwara.svg?maxAge=2592000)](https://travis-ci.org/piecioshka/makiwara)
+[![downloads count](https://img.shields.io/npm/dt/makiwara.svg)](https://www.npmjs.com/~piecioshka)
+[![travis](https://img.shields.io/travis/piecioshka/makiwara.svg)](https://travis-ci.org/piecioshka/makiwara)
+[![dependencies](https://david-dm.org/piecioshka/makiwara.svg)](https://github.com/piecioshka/makiwara)
+[![codecov](https://codecov.io/gh/piecioshka/makiwara/branch/master/graph/badge.svg)](https://codecov.io/gh/piecioshka/makiwara)
 
-> :hammer: Benchmark URL to gain HTTP requests limits
+:hammer: Benchmark URL to gain HTTP requests limits
 
 ## Install
 
-```
-$ npm install -g makiwara
+```bash
+npm install -g makiwara
 ```
 
 ## Usage
@@ -26,10 +28,10 @@ attack('http;//example.org', [1, 5, 10])
     });
 ```
 
-## CLI 
+## CLI
 
-```
-$ makiwara --help
+```bash
+makiwara --help
 
   Usage: cli [options]
 
@@ -42,7 +44,7 @@ $ makiwara --help
     -h, --help           output usage information
 ```
 
-```
+```text
 Requests summary of 1 second(s):
 ╔══════════════════════╤═══════════════════════════╗
 ║ HTTP Status Code     │ Quantity                  ║
@@ -89,18 +91,14 @@ Attack summary of 5 second(s):
 
 ## Unit tests
 
-How to run unit test (written in Jasmine):
-
-```
-$ npm test
+```bash
+npm test
 ```
 
 ## Code coverage
 
-Use Istanbul to get code coverage ratio.
-
-```
-$ npm run coverage
+```bash
+npm run coverage
 ```
 
 ## License
