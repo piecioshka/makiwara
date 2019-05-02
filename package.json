@@ -9,12 +9,11 @@
         "url": "https://piecioshka.pl/"
     },
     "scripts": {
-        "clear": "rm -rf dist/ coverage/",
+        "clear": "rm -rf dist/ coverage/ .nyc_output/",
         "clear:all": "rm -rf node_modules/ && npm run clear",
         "test": "jasmine test/**",
         "coverage": "nyc npm run test && nyc report --reporter=html",
         "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-        "count": "find . -name '*.js' -not -path './node_modules/*' | xargs wc -l | sort -r",
         "lint": "eslint ."
     },
     "dependencies": {
