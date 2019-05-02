@@ -3,13 +3,17 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
+
 const program = require('commander');
 const ora = require('ora');
 const isUrl = require('is-url');
 const bold = require('ansi-bold');
 
 // eslint-disable-next-line no-sync
-const pkg = fs.readFileSync('../package.json').toJSON();
+const pkg = fs.readFileSync(
+    path.join(__dirname, '..', 'package.json')
+).toJSON();
 const { attack } = require('../index');
 const { displaySummary, displayError } = require('../src/display');
 
@@ -17,15 +21,16 @@ program
     .version(pkg.version)
     .option('-u, --url <url>', 'Define URL to attack. Ex. http://example.org/')
     .option('-t, --timelimit [numbers]', 'Define list of time thresholds (in seconds). Ex. 10,100,1000')
+    .description('Example:\n\tmakiwara -u http://localhost:3000 -t 10')
     .parse(process.argv);
 
 if (typeof program.url !== 'string') {
-    console.red('ERROR: url is not a string');
+    console.red('Error: url is not a string');
     program.help();
 }
 
 if (!isUrl(program.url)) {
-    console.red(`ERROR: url is not correct format`);
+    console.red('Error: url is not correct format');
     program.help();
 }
 
