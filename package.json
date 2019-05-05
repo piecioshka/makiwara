@@ -11,9 +11,8 @@
     "scripts": {
         "clear": "rm -rf dist/ coverage/ .nyc_output/",
         "clear:all": "rm -rf node_modules/ && npm run clear",
-        "test": "jasmine test/**",
-        "coverage": "nyc npm run test && nyc report --reporter=html",
-        "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+        "test": "jasmine test/**/*.js",
+        "coverage": "nyc npm run test && nyc report --reporter=text-lcov | coveralls -v",
         "lint": "eslint ."
     },
     "dependencies": {
@@ -31,7 +30,7 @@
         "table": "^5.2.3"
     },
     "devDependencies": {
-        "codecov": "^3.3.0",
+        "coveralls": "^3.0.3",
         "eslint": "^5.16.0",
         "eslint-config-piecioshka": "^2.0.1",
         "jasmine": "^3.4.0",
