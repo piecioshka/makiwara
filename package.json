@@ -1,70 +1,74 @@
 {
-    "name": "makiwara",
-    "description": "Benchmark URL to gain HTTP requests limits",
-    "version": "2.0.8",
-    "license": "MIT",
-    "author": {
-        "name": "Piotr Kowalski",
-        "email": "piecioshka@gmail.com",
-        "url": "https://piecioshka.pl/"
-    },
-    "scripts": {
-        "clear": "rm -rf dist/ coverage/ .nyc_output/",
-        "clear:all": "rm -rf node_modules/ && npm run clear",
-        "test": "jasmine test/**/*.js",
-        "coverage": "nyc npm run test && nyc report --reporter=text-lcov | coveralls -v",
-        "lint": "eslint ."
-    },
-    "dependencies": {
-        "@types/node": "^12.0.0",
-        "ansi-bold": "^0.1.1",
-        "ansi-cyan": "^0.1.1",
-        "ansi-gray": "^0.1.1",
-        "ansi-red": "^0.1.1",
-        "ansi-yellow": "^0.1.1",
-        "axios": "^0.18.0",
-        "commander": "^2.20.0",
-        "http-status-codes": "^1.3.2",
-        "is-url": "^1.2.4",
-        "ora": "^3.4.0",
-        "table": "^5.2.3"
-    },
-    "devDependencies": {
-        "coveralls": "^3.0.3",
-        "eslint": "^5.16.0",
-        "eslint-config-piecioshka": "^2.0.1",
-        "jasmine": "^3.4.0",
-        "nyc": "^14.1.0"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/piecioshka/makiwara.git"
-    },
-    "bugs": {
-        "url": "https://github.com/piecioshka/makiwara/issues"
-    },
-    "files": [
-        "bin",
-        "src",
-        "index.js",
-        "package.json",
-        "README.md"
-    ],
-    "keywords": [
-        "app",
-        "test",
-        "attack",
-        "multi",
-        "statistics",
-        "summary",
-        "metrics",
-        "verify",
-        "request",
-        "time",
-        "analyze",
-        "cli",
-        "commonjs"
-    ],
-    "main": "./index.js",
-    "bin": "./bin/cli.js"
+  "name": "makiwara",
+  "description": "Benchmark URL to gain HTTP requests limits",
+  "version": "2.0.8",
+  "license": "MIT",
+  "author": {
+    "name": "Piotr Kowalski",
+    "email": "piecioshka@gmail.com",
+    "url": "https://piecioshka.pl/"
+  },
+  "scripts": {
+    "clear": "rm -rf dist/ coverage/ .nyc_output/",
+    "clear:all": "rm -rf node_modules/ && npm run clear",
+    "test": "jasmine test/**/*.js",
+    "coverage": "nyc npm run test && nyc report --reporter=text-lcov | coveralls -v",
+    "lint": "eslint .",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "dependencies": {
+    "@types/node": "^12.0.0",
+    "ansi-bold": "^0.1.1",
+    "ansi-cyan": "^0.1.1",
+    "ansi-gray": "^0.1.1",
+    "ansi-red": "^0.1.1",
+    "ansi-yellow": "^0.1.1",
+    "axios": "^0.18.0",
+    "commander": "^2.20.0",
+    "http-status-codes": "^1.3.2",
+    "is-url": "^1.2.4",
+    "ora": "^3.4.0",
+    "table": "^5.2.3",
+    "snyk": "^1.189.0"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.3",
+    "eslint": "^5.16.0",
+    "eslint-config-piecioshka": "^2.0.1",
+    "jasmine": "^3.4.0",
+    "nyc": "^14.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/piecioshka/makiwara.git"
+  },
+  "bugs": {
+    "url": "https://github.com/piecioshka/makiwara/issues"
+  },
+  "files": [
+    "bin",
+    "src",
+    "index.js",
+    "package.json",
+    "README.md"
+  ],
+  "keywords": [
+    "app",
+    "test",
+    "attack",
+    "multi",
+    "statistics",
+    "summary",
+    "metrics",
+    "verify",
+    "request",
+    "time",
+    "analyze",
+    "cli",
+    "commonjs"
+  ],
+  "main": "./index.js",
+  "bin": "./bin/cli.js",
+  "snyk": true
 }
