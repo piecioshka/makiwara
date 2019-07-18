@@ -11,30 +11,32 @@
     "scripts": {
         "clear": "rm -rf dist/ coverage/ .nyc_output/",
         "clear:all": "rm -rf node_modules/ && npm run clear",
-        "test": "jasmine test/**/*.js",
+        "test": "jasmine test/specs/*.js",
         "coverage": "nyc npm run test && nyc report --reporter=text-lcov | coveralls -v",
         "lint": "eslint ."
     },
     "dependencies": {
-        "@types/node": "^12.0.0",
+        "@types/node": "^12.6.8",
         "ansi-bold": "^0.1.1",
         "ansi-cyan": "^0.1.1",
         "ansi-gray": "^0.1.1",
         "ansi-red": "^0.1.1",
         "ansi-yellow": "^0.1.1",
-        "axios": "^0.18.0",
+        "axios": "^0.19.0",
         "commander": "^2.20.0",
         "http-status-codes": "^1.3.2",
         "is-url": "^1.2.4",
+        "node-fetch": "^2.6.0",
         "ora": "^3.4.0",
-        "table": "^5.2.3"
+        "table": "^5.4.4"
     },
     "devDependencies": {
-        "coveralls": "^3.0.3",
-        "eslint": "^5.16.0",
+        "coveralls": "^3.0.5",
+        "eslint": "^6.0.1",
         "eslint-config-piecioshka": "^2.0.1",
         "jasmine": "^3.4.0",
-        "nyc": "^14.1.0"
+        "nock": "^10.0.6",
+        "nyc": "^14.1.1"
     },
     "repository": {
         "type": "git",
