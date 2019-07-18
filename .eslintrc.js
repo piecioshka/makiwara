@@ -18,6 +18,8 @@ module.exports = {
 
     // http://eslint.org/docs/rules/
     rules: {
+        'max-statements': ['off'],
+        'comma-dangle': ['off'],
         'no-console': ['off'],
         'no-magic-numbers': ['off', { "ignore": [0, 1] }],
         'require-jsdoc': ['off'],

@@ -1,27 +1,35 @@
 #!/usr/bin/env node
 
-'use strict';
-
 const fs = require('fs');
 const path = require('path');
+
+const http = require('http');
+const https = require('https');
+http.globalAgent.maxSockets = https.globalAgent.maxSockets = 512;
+// http.globalAgent.maxFreeSockets = https.globalAgent.maxFreeSockets = 512;
 
 const program = require('commander');
 const ora = require('ora');
 const isUrl = require('is-url');
 const bold = require('ansi-bold');
 
+const { attack } = require('../index');
+const HTTP_STATUS = require('../src/http-status-codes');
+const { displaySummary, displayError } = require('../src/display');
+const { makeRequest } = require('../src/make-requests');
+
 // eslint-disable-next-line no-sync
 const pkg = JSON.parse(fs.readFileSync(
     path.join(__dirname, '..', 'package.json')
 ).toString());
-const { attack } = require('../index');
-const { displaySummary, displayError } = require('../src/display');
+const STRATEGY_REGEXP = /^(concurrent|sequence)$/;
 
 program
     .version(pkg.version)
     .option('-u, --url <url>', 'Define URL to attack. Ex. http://example.org/')
     .option('-t, --timelimit [numbers]', 'Define list of time thresholds (in seconds). Ex. 10,100,1000')
-    .description('Example:\n\tmakiwara -u http://localhost:3000 -t 10')
+    .option('-s, --strategy <concurrent|sequence>', 'Define strategy for making requests')
+    .description('Example:\n\tmakiwara -u http://localhost:3000 -t 10 -s sequence')
     .parse(process.argv);
 
 if (typeof program.url !== 'string') {
@@ -40,8 +48,15 @@ if (!program.timelimit) {
     console.yellow(`Thresholds are sets to: ${bold(program.timelimit)} (seconds)\n`);
 }
 
+if (!(STRATEGY_REGEXP).test(program.strategy)) {
+    program.strategy = 'concurrent';
+    console.yellow('Ups... you did not put "strategy"');
+    console.yellow(`Default strategy is: ${program.strategy}\n`);
+}
+
 const url = program.url;
 const timeLimit = program.timelimit.split(',').map(Number);
+const strategy = program.strategy;
 
 function displayDelimiter() {
     console.gray('----------------------------------------------------\n');
@@ -49,26 +64,51 @@ function displayDelimiter() {
 
 function displayHeader() {
     console.log(`${pkg.name}, Version ${pkg.version}`);
-    console.log(`Copyright 2017 ${pkg.author.name} <${pkg.author.email}> ${pkg.author.url}`);
+    const currentYear = new Date().getFullYear();
+    console.log(`Copyright 2017-${currentYear} ${pkg.author.name} <${pkg.author.email}> ${pkg.author.url}`);
     console.log(`The ${pkg.license} License, https://piecioshka.mit-license.org/\n`);
     console.log(`> ${pkg.description}\n`);
 }
 
-displayHeader();
+async function sendTestRequest(testUrl) {
+    global.spinner.succeed(`Start testing... ${bold(testUrl)}`);
+    const response = await makeRequest(testUrl, { agent: false });
+    if (response.status !== HTTP_STATUS.OK) {
+        console.red(`HTTP Status Code: ${bold(response.status)}`);
+        console.yellow(`Response Body: ${bold(response.text)}`);
+    }
+    global.spinner.succeed(`Testing completed (response: ${bold(response.text.length)} Bytes)`);
+}
 
-const spinner = ora('Loading').start();
+async function main() {
+    displayHeader();
 
-attack(url, timeLimit)
-    .then((results) => {
+    const spinner = ora('Loading').start();
+
+    global.spinner = spinner;
+
+    try {
+        await sendTestRequest(url);
+
+        spinner.succeed('Start attacking...');
+        const results = await attack(url, timeLimit, strategy);
         spinner.stop();
+        spinner.succeed('Attacking completed\n');
+
         results.forEach((result, index) => {
             displaySummary(result);
+
             if (index < results.length - 1) {
                 displayDelimiter();
             }
         });
-    })
-    .catch((err) => {
+    } catch (err) {
         spinner.stop();
         displayError(err);
-    });
+    }
+
+    // eslint-disable-next-line no-process-exit
+    process.exit(0);
+}
+
+main();

@@ -19,7 +19,7 @@ npm install -g makiwara
 ```javascript
 const { attack } = require('makiwara');
 
-attack('http;//example.org', [1, 5, 10])
+attack('http://example.org', [1, 5, 10], 'sequence')
     .then((result) => {
         console.log(result);
     })
@@ -30,63 +30,61 @@ attack('http;//example.org', [1, 5, 10])
 
 ## CLI
 
-```bash
+```text
 makiwara --help
 
-  Usage: cli [options]
+Usage: cli [options]
 
+Example:
+    makiwara -u http://localhost:3000 -t 10 -s sequence
 
-  Options:
-
-    -V, --version        output the version number
-    -u, --url <url>      Define URL to attack
-    -t, --times [times]  Define list of time thresholds (in seconds)
-    -h, --help           output usage information
+Options:
+  -V, --version                         output the version number
+  -u, --url <url>                       Define URL to attack. Ex. http://example.org/
+  -t, --timelimit [numbers]             Define list of time thresholds (in seconds). Ex. 10,100,1000
+  -s, --strategy <concurrent|sequence>  Define strategy for making requests
+  -h, --help                            output usage information
 ```
 
-```text
-Requests summary of 1 second(s):
-╔══════════════════════╤═══════════════════════════╗
-║ HTTP Status Code     │ Quantity                  ║
-╟──────────────────────┼───────────────────────────╢
-║ 200 OK               │ 3                         ║
-╚══════════════════════╧═══════════════════════════╝
+## Example
 
-Attack summary of 1 second(s):
-╔══════════════════════╤═══════════════════════════╗
-║ Start time           │ 2017-12-18T11:48:37.152Z  ║
-╟──────────────────────┼───────────────────────────╢
-║ End time             │ 2017-12-18T11:48:38.296Z  ║
-╟──────────────────────┼───────────────────────────╢
-║ Duration             │ 1144 ms                   ║
-╟──────────────────────┼───────────────────────────╢
-║ Time limit           │ 1000 ms                   ║
-╟──────────────────────┼───────────────────────────╢
-║ Avg. request time    │ 333.333 ms/req.           ║
-╚══════════════════════╧═══════════════════════════╝
+```bash
+makiwara -u https://example.org -t 1,5 -s sequence
+```
+
+Result:
+
+```text
+
+╔════════════════════════╤════════════════════════════════╗
+║ HTTP Status Code       │ Requests quantity              ║
+╟────────────────────────┼────────────────────────────────╢
+║ 200 OK                 │ 3                              ║
+╚════════════════════════╧════════════════════════════════╝
+
+╔════════════════════════╤════════════════════════════════╗
+║ Type                   │ Sequence                       ║
+╟────────────────────────┼────────────────────────────────╢
+║ Effective Duration     │ 1.456 seconds                  ║
+╟────────────────────────┼────────────────────────────────╢
+║ Times                  │ 3                              ║
+╚════════════════════════╧════════════════════════════════╝
 
 ----------------------------------------------------
 
-Requests summary of 5 second(s):
-╔══════════════════════╤═══════════════════════════╗
-║ HTTP Status Code     │ Quantity                  ║
-╟──────────────────────┼───────────────────────────╢
-║ 200 OK               │ 21                        ║
-╚══════════════════════╧═══════════════════════════╝
+╔════════════════════════╤════════════════════════════════╗
+║ HTTP Status Code       │ Requests quantity              ║
+╟────────────────────────┼────────────────────────────────╢
+║ 200 OK                 │ 10                             ║
+╚════════════════════════╧════════════════════════════════╝
 
-Attack summary of 5 second(s):
-╔══════════════════════╤═══════════════════════════╗
-║ Start time           │ 2017-12-18T11:48:37.153Z  ║
-╟──────────────────────┼───────────────────────────╢
-║ End time             │ 2017-12-18T11:48:42.265Z  ║
-╟──────────────────────┼───────────────────────────╢
-║ Duration             │ 5112 ms                   ║
-╟──────────────────────┼───────────────────────────╢
-║ Time limit           │ 5000 ms                   ║
-╟──────────────────────┼───────────────────────────╢
-║ Avg. request time    │ 238.095 ms/req.           ║
-╚══════════════════════╧═══════════════════════════╝
-
+╔════════════════════════╤════════════════════════════════╗
+║ Type                   │ Sequence                       ║
+╟────────────────────────┼────────────────────────────────╢
+║ Effective Duration     │ 5.399 seconds                  ║
+╟────────────────────────┼────────────────────────────────╢
+║ Times                  │ 10                             ║
+╚════════════════════════╧════════════════════════════════╝
 ```
 
 ## Unit tests
@@ -103,4 +101,4 @@ npm run coverage
 
 ## License
 
-[The MIT License](http://piecioshka.mit-license.org) @ 2017
+[The MIT License](http://piecioshka.mit-license.org) @ 2017-2019

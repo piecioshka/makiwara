@@ -1,5 +1,3 @@
-'use strict';
-
 function collapseArray(array) {
     const hashMap = array.reduce((mem, item) => {
         if (!mem[item]) {

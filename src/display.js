@@ -1,14 +1,14 @@
-'use strict';
-
 const { table } = require('table');
 const HTTPStatusCodes = require('http-status-codes');
 const bold = require('ansi-bold');
 
 const { collapseArray } = require('./object-util');
 
+const SECOND_IN_MILLISECONDS = 1000;
+
 const tableOptions = {
     columns: {
-        0: { width: 20 },
+        0: { width: 22 },
         1: { width: 30 }
     }
 };
@@ -29,26 +29,28 @@ function appendHttpStatusCodeLabel(statusCodeEntries) {
 
 function displayRequestsSummary(attackResults) {
     const statusCodes = collapseArray(
-        attackResults.requests.map((r) => r.statusCode)
+        attackResults.requests.map((r) => r.status)
     );
     const isEmptyResults = (statusCodes.length === 0);
 
     if (isEmptyResults) {
-        console.log('  No request were sent\n');
+        statusCodes['-'] = -1;
     } else {
         appendHttpStatusCodeLabel(statusCodes);
-        const data = [['HTTP Status Code', 'Requests quantity'].map(bold)]
-            .concat(statusCodes);
-        console.log(table(data, tableOptions));
     }
+
+    const data = [['HTTP Status Code', 'Requests quantity']
+        .map(bold)]
+        .concat(statusCodes);
+    console.log(table(data, tableOptions));
 }
 
-function displayAttackSummary(attackResults) {
+function displayAttackSummary(results) {
     const meta = [];
-    meta.push(['Concurrency Level', 1]);
-    meta.push(['Time taken for tests', `${(attackResults.duration / 1000).toLocaleString()} seconds`]);
-    const rps = (attackResults.requests.length / attackResults.duration * 1000);
-    meta.push(['Requests per second', `${rps.toFixed(3)} [#/sec] (mean)`]);
+    meta.push(['Type', results.type]);
+    const durationInSeconds = (results.duration / SECOND_IN_MILLISECONDS);
+    meta.push(['Effective Duration', `${durationInSeconds.toLocaleString()} seconds`]);
+    meta.push(['Times', `${results.times}`]);
     console.log(table(meta, tableOptions));
 }
 

@@ -1,70 +1,111 @@
-'use strict';
+const http = require('http');
 
-const request = require('axios');
+// const makeRequest = require('node-fetch');
+const makeRequest = require('./local-fetch');
 
-/**
- * @param {string} url
- * @returns {Promise}
- */
-async function fetchStatusCode(url) {
-    try {
-        const response = await request.get(url);
-        return response.status;
-    } catch (err) {
-        if (err.response) {
-            return err.response.status;
-        }
-        return 0;
+const SECOND_IN_MILLISECONDS = 1000;
+
+function pause(timeoutInSeconds) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, timeoutInSeconds * SECOND_IN_MILLISECONDS);
+    });
+}
+
+function status(i) {
+    if (global.spinner) {
+        global.spinner.text = `Loading: ${i} time(s)`;
+        global.spinner.render();
     }
 }
 
-/**
- * @param {string} url
- * @param {number} durationLimit - In seconds
- * @returns {Promise}
- */
-async function makeRequests(url, durationLimit) {
-    durationLimit = Number(durationLimit);
-
-    if (Number.isNaN(durationLimit)) {
-        throw new TypeError('Put numer of durationLimit time of making requests (ex. 1,3,5)');
+async function makeRequestsInConcurrentMode(url, durationInSeconds) {
+    if (isNaN(durationInSeconds)) {
+        throw new TypeError('duration should be a number (ex. 1,3,5)');
     }
 
-    const millisecondTimeLimit = durationLimit * 1000;
     const requests = [];
     const startTime = Date.now();
+    const durationInMilliseconds = durationInSeconds * SECOND_IN_MILLISECONDS;
+    let i = 0;
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
-        const startRequestTime = Date.now();
-        const statusCode = await fetchStatusCode(url);
-        const endRequestTime = Date.now();
-        const requestDuration = (endRequestTime - startRequestTime);
+        const currentTime = Date.now();
 
-        const diffTime = (endRequestTime - startTime);
-        const offset = (diffTime - millisecondTimeLimit);
-
-        if (offset > 0) {
+        if (i >= http.globalAgent.maxSockets) {
             break;
         }
 
-        requests.push({
-            statusCode,
-            duration: requestDuration
-        });
+        if (currentTime > startTime + durationInMilliseconds) {
+            break;
+        }
+
+        i++;
+
+        status(i);
+
+        await makeRequest(url, { agent: false })
+            .then((response) => {
+                requests.push(response);
+            });
     }
 
     const endTime = Date.now();
-    const duration = endTime - startTime;
+    const wholeProcessDuration = endTime - startTime;
+
+    await pause(durationInSeconds);
 
     return {
+        type: 'Concurrent',
         startTime,
         endTime,
-        durationLimit,
-        duration,
+        duration: wholeProcessDuration,
+        times: i,
+        requests
+    };
+}
+
+async function makeRequestsInSequenceMode(url, durationInSeconds) {
+    if (isNaN(durationInSeconds)) {
+        throw new TypeError('duration should be a number (ex. 1,3,5)');
+    }
+
+    const requests = [];
+    const startTime = Date.now();
+    const durationInMilliseconds = durationInSeconds * SECOND_IN_MILLISECONDS;
+    let i = 0;
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+        const currentTime = Date.now();
+
+        if (currentTime > startTime + durationInMilliseconds) {
+            break;
+        }
+
+        i++;
+
+        status(i);
+
+        const response = await makeRequest(url, { agent: false });
+        requests.push(response);
+    }
+
+    const endTime = Date.now();
+    const wholeProcessDuration = endTime - startTime;
+
+    return {
+        type: 'Sequence',
+        startTime,
+        endTime,
+        duration: wholeProcessDuration,
+        times: i,
         requests
     };
 }
 
 module.exports = {
-    makeRequests
+    makeRequest,
+    makeRequestsInSequenceMode,
+    makeRequestsInConcurrentMode
 };
