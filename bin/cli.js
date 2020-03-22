@@ -57,6 +57,7 @@ if (!(STRATEGY_REGEXP).test(program.strategy)) {
 const url = program.url;
 const timeLimit = program.timelimit.split(',').map(Number);
 const strategy = program.strategy;
+let spinner = null;
 
 function displayDelimiter() {
     console.gray('----------------------------------------------------\n');
@@ -71,21 +72,19 @@ function displayHeader() {
 }
 
 async function sendTestRequest(testUrl) {
-    global.spinner.succeed(`Start testing... ${bold(testUrl)}`);
+    spinner.succeed(`Start testing... ${bold(testUrl)}`);
     const response = await makeRequest(testUrl, { agent: false });
     if (response.status !== HTTP_STATUS.OK) {
         console.red(`HTTP Status Code: ${bold(response.status)}`);
         console.yellow(`Response Body: ${bold(response.text)}`);
     }
-    global.spinner.succeed(`Testing completed (response: ${bold(response.text.length)} Bytes)`);
+    spinner.succeed(`Testing completed (response: ${bold(response.text.length)} Bytes)`);
 }
 
 async function main() {
     displayHeader();
 
-    const spinner = ora('Loading').start();
-
-    global.spinner = spinner;
+    spinner = ora('Loading').start();
 
     try {
         await sendTestRequest(url);

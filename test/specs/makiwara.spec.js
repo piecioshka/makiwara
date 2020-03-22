@@ -6,6 +6,7 @@ const URL = 'http://localhost/';
 
 it('attack should send request', async () => {
     nock(URL)
+        .persist()
         .get('/')
         .reply(204, []);
 
