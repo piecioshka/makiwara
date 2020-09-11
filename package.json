@@ -28,7 +28,7 @@
     "commander": "^5.0.0",
     "http-status-codes": "^1.4.0",
     "is-url": "^1.2.4",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "ora": "^4.0.3",
     "table": "^5.4.6",
     "snyk": "^1.316.1"
