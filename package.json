@@ -18,29 +18,29 @@
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
-    "@types/node": "^13.9.2",
+    "@types/node": "^17.0.0",
     "ansi-bold": "^0.1.1",
     "ansi-cyan": "^0.1.1",
     "ansi-gray": "^0.1.1",
     "ansi-red": "^0.1.1",
     "ansi-yellow": "^0.1.1",
-    "axios": "^0.19.2",
-    "commander": "^5.0.0",
-    "http-status-codes": "^1.4.0",
+    "axios": "^0.24.0",
+    "commander": "^8.3.0",
+    "http-status-codes": "^2.1.4",
     "is-url": "^1.2.4",
-    "node-fetch": "^2.6.0",
-    "ora": "^4.0.3",
-    "table": "^5.4.6",
-    "snyk": "^1.316.1"
+    "node-fetch": "^3.1.0",
+    "ora": "^6.0.1",
+    "snyk": "^1.797.0",
+    "table": "^6.7.5"
   },
   "devDependencies": {
-    "@types/jasmine": "^3.5.9",
-    "coveralls": "^3.0.11",
-    "eslint": "^6.8.0",
-    "eslint-config-piecioshka": "^2.0.2",
-    "jasmine": "^3.5.0",
-    "nock": "^12.0.3",
-    "nyc": "^15.0.0"
+    "@types/jasmine": "^3.10.2",
+    "coveralls": "^3.1.1",
+    "eslint": "^8.5.0",
+    "eslint-config-piecioshka": "^2.0.4",
+    "jasmine": "^3.10.0",
+    "nock": "^13.2.1",
+    "nyc": "^15.1.0"
   },
   "repository": {
     "type": "git",
