@@ -12,13 +12,14 @@
     "clear": "rm -rf dist/ coverage/ .nyc_output/",
     "clear:all": "rm -rf node_modules/ && npm run clear",
     "test": "jasmine test/specs/*.js",
-    "coverage": "nyc npm run test && nyc report --reporter=text-lcov | coveralls -v",
+    "coverage": "nyc npm run test && nyc report --reporter=html",
+    "coveralls": "nyc npm run test && nyc report --reporter=text-lcov | coveralls -v",
     "lint": "eslint .",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
-    "@types/node": "^17.0.0",
+    "@types/node": "^17.0.5",
     "ansi-bold": "^0.1.1",
     "ansi-cyan": "^0.1.1",
     "ansi-gray": "^0.1.1",
@@ -26,11 +27,11 @@
     "ansi-yellow": "^0.1.1",
     "axios": "^0.24.0",
     "commander": "^8.3.0",
-    "http-status-codes": "^2.1.4",
+    "http-status-codes": "^2.2.0",
     "is-url": "^1.2.4",
     "node-fetch": "^3.1.0",
     "ora": "^6.0.1",
-    "snyk": "^1.797.0",
+    "snyk": "^1.813.0",
     "table": "^6.7.5"
   },
   "devDependencies": {
