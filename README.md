@@ -3,7 +3,6 @@
 [![npm version](https://badge.fury.io/js/makiwara.svg)](https://badge.fury.io/js/makiwara)
 [![downloads count](https://img.shields.io/npm/dt/makiwara.svg)](https://www.npmjs.com/~piecioshka)
 [![travis](https://img.shields.io/travis/piecioshka/makiwara.svg)](https://travis-ci.org/piecioshka/makiwara)
-[![dependencies](https://david-dm.org/piecioshka/makiwara.svg)](https://github.com/piecioshka/makiwara)
 [![coveralls](https://coveralls.io/repos/github/piecioshka/makiwara/badge.svg?branch=master)](https://coveralls.io/github/piecioshka/makiwara?branch=master)
 
 :hammer: Benchmark URL to gain HTTP requests limits
