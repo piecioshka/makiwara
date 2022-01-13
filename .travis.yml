@@ -6,6 +6,8 @@ os:
   - windows
 
 node_js:
+  - "14"
+  - "13"
   - "12"
   - "11"
   - "10"
@@ -13,4 +15,4 @@ node_js:
   - "8"
 
 after_script:
-  - npm run coverage
+  - npm run coveralls

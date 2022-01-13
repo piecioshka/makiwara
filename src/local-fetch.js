@@ -17,11 +17,11 @@ async function makeRequest(url, options = {}) {
     };
     const protocol = getProtocol(url);
     return new Promise((resolve, reject) => {
-        protocol.get(url, options, (res) => {
-            res.addListener('data', (data) => {
+        protocol.get(url, options, res => {
+            res.addListener('data', data => {
                 response.text += data.toString();
             });
-            res.addListener('error', (err) => {
+            res.addListener('error', err => {
                 reject(err);
             });
             res.addListener('end', () => {

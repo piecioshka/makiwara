@@ -14,7 +14,7 @@ const tableOptions = {
 };
 
 function appendHttpStatusCodeLabel(statusCodeEntries) {
-    statusCodeEntries.forEach((entry) => {
+    statusCodeEntries.forEach(entry => {
         let label = null;
         try {
             label = HTTPStatusCodes.getStatusText(entry[0]);
@@ -29,7 +29,7 @@ function appendHttpStatusCodeLabel(statusCodeEntries) {
 
 function displayRequestsSummary(attackResults) {
     const statusCodes = collapseArray(
-        attackResults.requests.map((r) => r.status)
+        attackResults.requests.map(r => r.status)
     );
     const isEmptyResults = (statusCodes.length === 0);
 

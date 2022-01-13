@@ -9,7 +9,7 @@ function collapseArray(array) {
 
     const entries = Object.entries(hashMap);
 
-    entries.forEach((entry) => {
+    entries.forEach(entry => {
         entry[0] = Number(entry[0]);
     });
 

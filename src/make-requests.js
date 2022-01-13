@@ -6,7 +6,7 @@ const makeRequest = require('./local-fetch');
 const SECOND_IN_MILLISECONDS = 1000;
 
 function pause(timeoutInSeconds) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         setTimeout(resolve, timeoutInSeconds * SECOND_IN_MILLISECONDS);
     });
 }
@@ -45,7 +45,7 @@ async function makeRequestsInConcurrentMode(url, durationInSeconds) {
         status(i);
 
         await makeRequest(url, { agent: false })
-            .then((response) => {
+            .then(response => {
                 requests.push(response);
             });
     }
