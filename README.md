@@ -1,7 +1,9 @@
 # makiwara
 
+[![node version](https://img.shields.io/node/v/makiwara.svg)](https://www.npmjs.com/package/makiwara)
 [![npm version](https://badge.fury.io/js/makiwara.svg)](https://badge.fury.io/js/makiwara)
-[![downloads count](https://img.shields.io/npm/dt/makiwara.svg)](https://www.npmjs.com/~piecioshka)
+[![downloads count](https://img.shields.io/npm/dt/makiwara.svg)](https://www.npmjs.com/package/makiwara)
+[![license](https://img.shields.io/npm/l/makiwara.svg)](https://www.npmjs.com/package/makiwara)
 [![travis-ci](https://api.travis-ci.com/piecioshka/makiwara.svg?branch=master)](https://app.travis-ci.com/github/piecioshka/makiwara)
 
 :hammer: Benchmark URL to gain HTTP requests limits
