@@ -3,10 +3,10 @@ function setupColorLogFunction(name) {
     console[name] = (...args) => console.log(...args.map(fn));
 }
 
-setupColorLogFunction('red');
-setupColorLogFunction('yellow');
-setupColorLogFunction('gray');
-setupColorLogFunction('cyan');
+setupColorLogFunction("red");
+setupColorLogFunction("yellow");
+setupColorLogFunction("gray");
+setupColorLogFunction("cyan");
 
 /**
  * @type console

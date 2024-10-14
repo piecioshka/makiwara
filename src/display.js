@@ -1,27 +1,27 @@
-const { table } = require('table');
-const HTTPStatusCodes = require('http-status-codes');
-const bold = require('ansi-bold');
+const { table } = require("table");
+const HTTPStatusCodes = require("http-status-codes");
+const bold = require("ansi-bold");
 
-const { collapseArray } = require('./object-util');
+const { collapseArray } = require("./object-util");
 
 const SECOND_IN_MILLISECONDS = 1000;
 
 const tableOptions = {
     columns: {
         0: { width: 22 },
-        1: { width: 30 }
-    }
+        1: { width: 30 },
+    },
 };
 
 function appendHttpStatusCodeLabel(statusCodeEntries) {
-    statusCodeEntries.forEach(entry => {
+    statusCodeEntries.forEach((entry) => {
         let label = null;
         try {
             label = HTTPStatusCodes.getStatusText(entry[0]);
         } catch (err) {
             console.red(err);
         }
-        if (typeof label === 'string') {
+        if (typeof label === "string") {
             entry[0] = `${entry[0]} ${label}`;
         }
     });
@@ -29,28 +29,31 @@ function appendHttpStatusCodeLabel(statusCodeEntries) {
 
 function displayRequestsSummary(attackResults) {
     const statusCodes = collapseArray(
-        attackResults.requests.map(r => r.status)
+        attackResults.requests.map((r) => r.status)
     );
-    const isEmptyResults = (statusCodes.length === 0);
+    const isEmptyResults = statusCodes.length === 0;
 
     if (isEmptyResults) {
-        statusCodes['-'] = -1;
+        statusCodes["-"] = -1;
     } else {
         appendHttpStatusCodeLabel(statusCodes);
     }
 
-    const data = [['HTTP Status Code', 'Requests quantity']
-        .map(bold)]
-        .concat(statusCodes);
+    const data = [["HTTP Status Code", "Requests quantity"].map(bold)].concat(
+        statusCodes
+    );
     console.log(table(data, tableOptions));
 }
 
 function displayAttackSummary(results) {
     const meta = [];
-    meta.push(['Type', results.type]);
-    const durationInSeconds = (results.duration / SECOND_IN_MILLISECONDS);
-    meta.push(['Effective Duration', `${durationInSeconds.toLocaleString()} seconds`]);
-    meta.push(['Times', `${results.times}`]);
+    meta.push(["Type", results.type]);
+    const durationInSeconds = results.duration / SECOND_IN_MILLISECONDS;
+    meta.push([
+        "Effective Duration",
+        `${durationInSeconds.toLocaleString()} seconds`,
+    ]);
+    meta.push(["Times", `${results.times}`]);
     console.log(table(meta, tableOptions));
 }
 
@@ -65,5 +68,5 @@ function displayError(err) {
 
 module.exports = {
     displaySummary,
-    displayError
+    displayError,
 };

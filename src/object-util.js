@@ -9,13 +9,9 @@ function collapseArray(array) {
 
     const entries = Object.entries(hashMap);
 
-    entries.forEach(entry => {
-        entry[0] = Number(entry[0]);
-    });
-
-    return entries;
+    return entries.map((entry) => Number(entry[0]));
 }
 
 module.exports = {
-    collapseArray
+    collapseArray,
 };

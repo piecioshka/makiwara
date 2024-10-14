@@ -1,7 +1,7 @@
-const http = require('http');
-const https = require('https');
+const http = require("http");
+const https = require("https");
 
-const IS_HTTP = (/^https/);
+const IS_HTTP = /^https/;
 
 function getProtocol(url) {
     if (IS_HTTP.test(url)) {
@@ -12,20 +12,20 @@ function getProtocol(url) {
 
 async function makeRequest(url, options = {}) {
     const response = {
-        status: null,
-        text: '',
+        status: 0,
+        text: "",
     };
     const protocol = getProtocol(url);
     return new Promise((resolve, reject) => {
-        protocol.get(url, options, res => {
-            res.addListener('data', data => {
+        protocol.get(url, options, (res) => {
+            res.addListener("data", (data) => {
                 response.text += data.toString();
             });
-            res.addListener('error', err => {
+            res.addListener("error", (err) => {
                 reject(err);
             });
-            res.addListener('end', () => {
-                response.status = res.statusCode;
+            res.addListener("end", () => {
+                response.status = Number(res.statusCode);
                 resolve(response);
             });
         });

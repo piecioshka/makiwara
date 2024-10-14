@@ -1,12 +1,12 @@
-const http = require('http');
+const http = require("http");
 
 // const makeRequest = require('node-fetch');
-const makeRequest = require('./local-fetch');
+const makeRequest = require("./local-fetch");
 
 const SECOND_IN_MILLISECONDS = 1000;
 
 function pause(timeoutInSeconds) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         setTimeout(resolve, timeoutInSeconds * SECOND_IN_MILLISECONDS);
     });
 }
@@ -20,7 +20,7 @@ function status(i) {
 
 async function makeRequestsInConcurrentMode(url, durationInSeconds) {
     if (isNaN(durationInSeconds)) {
-        throw new TypeError('duration should be a number (ex. 1,3,5)');
+        throw new TypeError("duration should be a number (ex. 1,3,5)");
     }
 
     const requests = [];
@@ -44,10 +44,9 @@ async function makeRequestsInConcurrentMode(url, durationInSeconds) {
 
         status(i);
 
-        await makeRequest(url, { agent: false })
-            .then(response => {
-                requests.push(response);
-            });
+        await makeRequest(url, { agent: false }).then((response) => {
+            requests.push(response);
+        });
     }
 
     const endTime = Date.now();
@@ -56,18 +55,18 @@ async function makeRequestsInConcurrentMode(url, durationInSeconds) {
     await pause(durationInSeconds);
 
     return {
-        type: 'Concurrent',
+        type: "Concurrent",
         startTime,
         endTime,
         duration: wholeProcessDuration,
         times: i,
-        requests
+        requests,
     };
 }
 
 async function makeRequestsInSequenceMode(url, durationInSeconds) {
     if (isNaN(durationInSeconds)) {
-        throw new TypeError('duration should be a number (ex. 1,3,5)');
+        throw new TypeError("duration should be a number (ex. 1,3,5)");
     }
 
     const requests = [];
@@ -95,17 +94,17 @@ async function makeRequestsInSequenceMode(url, durationInSeconds) {
     const wholeProcessDuration = endTime - startTime;
 
     return {
-        type: 'Sequence',
+        type: "Sequence",
         startTime,
         endTime,
         duration: wholeProcessDuration,
         times: i,
-        requests
+        requests,
     };
 }
 
 module.exports = {
     makeRequest,
     makeRequestsInSequenceMode,
-    makeRequestsInConcurrentMode
+    makeRequestsInConcurrentMode,
 };
