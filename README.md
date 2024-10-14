@@ -3,7 +3,7 @@
 [![node version](https://img.shields.io/node/v/makiwara.svg)](https://www.npmjs.com/package/makiwara)
 [![npm version](https://badge.fury.io/js/makiwara.svg)](https://badge.fury.io/js/makiwara)
 [![downloads count](https://img.shields.io/npm/dt/makiwara.svg)](https://www.npmjs.com/package/makiwara)
-[![license](https://img.shields.io/npm/l/makiwara.svg)](https://www.npmjs.com/package/makiwara)
+[![license](https://img.shields.io/npm/l/makiwara.svg)](https://piecioshka.mit-license.org)
 [![github-ci](https://github.com/piecioshka/makiwara/actions/workflows/testing.yml/badge.svg)](https://github.com/piecioshka/makiwara/actions/workflows/testing.yml)
 
 :hammer: Benchmark URL to gain HTTP requests limits
