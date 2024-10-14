@@ -5,7 +5,7 @@ module.exports = {
         ecmaVersion: 2017
     },
 
-    // http://eslint.org/docs/user-guide/configuring#specifying-environments
+    // https://eslint.org/docs/user-guide/configuring#specifying-environments
     env: {
         es6: true,
         // browser: true,
@@ -16,7 +16,7 @@ module.exports = {
         jasmine: true
     },
 
-    // http://eslint.org/docs/rules/
+    // https://eslint.org/docs/rules/
     rules: {
         'max-statements': ['off'],
         'comma-dangle': ['off'],

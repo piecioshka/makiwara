@@ -1,5 +1,5 @@
 # This file is for unifying the coding style for different editors and IDEs.
-# EditorConfig is awesome: http://EditorConfig.org
+# EditorConfig is awesome: https://EditorConfig.org
 
 # No .editorconfig files above the root directory.
 root = true

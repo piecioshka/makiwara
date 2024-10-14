@@ -19,7 +19,7 @@ npm install -g makiwara
 ```javascript
 const { attack } = require('makiwara');
 
-attack('http://example.org', [1, 5, 10], 'sequence')
+attack('https://example.org', [1, 5, 10], 'sequence')
     .then((result) => {
         console.log(result);
     })
@@ -36,11 +36,11 @@ makiwara --help
 Usage: cli [options]
 
 Example:
-    makiwara -u http://localhost:3000 -t 10 -s sequence
+    makiwara -u https://localhost:3000 -t 10 -s sequence
 
 Options:
   -V, --version                         output the version number
-  -u, --url <url>                       Define URL to attack. Ex. http://example.org/
+  -u, --url <url>                       Define URL to attack. Ex. https://example.org/
   -t, --timelimit [numbers]             Define list of time thresholds (in seconds). Ex. 10,100,1000
   -s, --strategy <concurrent|sequence>  Define strategy for making requests
   -h, --help                            output usage information
@@ -101,4 +101,4 @@ npm run coverage
 
 ## License
 
-[The MIT License](http://piecioshka.mit-license.org) @ 2017-2019
+[The MIT License](https://piecioshka.mit-license.org) @ 2017-2019

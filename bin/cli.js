@@ -26,10 +26,10 @@ const STRATEGY_REGEXP = /^(concurrent|sequence)$/;
 
 program
     .version(pkg.version)
-    .option('-u, --url <url>', 'Define URL to attack. Ex. http://example.org/')
+    .option('-u, --url <url>', 'Define URL to attack. Ex. https://example.org/')
     .option('-t, --timelimit [numbers]', 'Define list of time thresholds (in seconds). Ex. 10,100,1000')
     .option('-s, --strategy <concurrent|sequence>', 'Define strategy for making requests')
-    .description('Example:\n\tmakiwara -u http://localhost:3000 -t 10 -s sequence')
+    .description('Example:\n\tmakiwara -u https://localhost:3000 -t 10 -s sequence')
     .parse(process.argv);
 
 if (typeof program.url !== 'string') {

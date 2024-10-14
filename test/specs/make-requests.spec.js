@@ -2,7 +2,7 @@ const nock = require('nock');
 const { makeRequest, makeRequestsInConcurrentMode, makeRequestsInSequenceMode } = require('../../src/make-requests');
 const HTTP_STATUS = require('../../src/http-status-codes');
 
-const URL = 'http://localhost/';
+const URL = 'https://localhost/';
 const ONE_SECOND = 1;
 
 describe('makeRequests', () => {

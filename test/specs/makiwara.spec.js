@@ -2,7 +2,7 @@ const nock = require('nock');
 const HTTP_STATUS = require('../../src/http-status-codes');
 const { attack } = require('../..');
 
-const URL = 'http://localhost/';
+const URL = 'https://localhost/';
 
 it('attack should send request', async () => {
     nock(URL)
