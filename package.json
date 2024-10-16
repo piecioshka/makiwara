@@ -1,6 +1,6 @@
 {
   "name": "makiwara",
-  "description": "Benchmark URL to gain HTTP requests limits",
+  "description": "🔨 Benchmark URL to gain HTTP requests limits",
   "version": "2.1.5",
   "license": "MIT",
   "author": {
