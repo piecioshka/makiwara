@@ -1,7 +1,7 @@
 {
   "name": "makiwara",
   "description": "🔨 Benchmark URL to gain HTTP requests limits",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "license": "MIT",
   "author": {
     "name": "Piotr Kowalski",
