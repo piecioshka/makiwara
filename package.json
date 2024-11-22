@@ -1,7 +1,7 @@
 {
   "name": "makiwara",
   "description": "🔨 CLI to benchmark URL to gain HTTP requests limits",
-  "version": "2.1.9",
+  "version": "2.2.0",
   "license": "MIT",
   "author": {
     "name": "Piotr Kowalski",
