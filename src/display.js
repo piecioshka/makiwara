@@ -2,7 +2,7 @@ const { table } = require("table");
 const HTTPStatusCodes = require("http-status-codes");
 const bold = require("ansi-bold");
 
-const { collapseArray } = require("./object-util");
+const logger = require("../src/color-logs");
 
 const SECOND_IN_MILLISECONDS = 1000;
 
@@ -13,60 +13,50 @@ const tableOptions = {
     },
 };
 
-function appendHttpStatusCodeLabel(statusCodeEntries) {
-    statusCodeEntries.forEach((entry) => {
-        let label = null;
-        try {
-            label = HTTPStatusCodes.getStatusText(entry[0]);
-        } catch (err) {
-            console.red(err);
-        }
-        if (typeof label === "string") {
-            entry[0] = `${entry[0]} ${label}`;
-        }
-    });
-}
+function displayRequestsSummary(results) {
+    const aggregateResults = results.requests.reduce((acc, item) => {
+        acc[item.status] = acc[item.status] ? acc[item.status] + 1 : 1;
+        return acc;
+    }, {});
 
-function displayRequestsSummary(attackResults) {
-    const statusCodes = collapseArray(
-        attackResults.requests.map((r) => r.status)
-    );
-    const isEmptyResults = statusCodes.length === 0;
+    const codes = Object.keys(aggregateResults).map(Number);
 
-    if (isEmptyResults) {
-        statusCodes["-"] = -1;
-    } else {
-        appendHttpStatusCodeLabel(statusCodes);
+    if (codes.length === 0) {
+        logger.error("No requests were made");
+        return;
     }
 
-    const data = [["HTTP Status Code", "Requests quantity"].map(bold)].concat(
-        statusCodes
-    );
+    const statuses = codes.reduce((acc, code) => {
+        const label = HTTPStatusCodes.getReasonPhrase(code);
+        acc[`${code} ${label}`] = aggregateResults[code];
+        return acc;
+    }, {});
+
+    const data = [
+        ["HTTP Status Code", "Requests quantity"].map(bold),
+        ...Object.entries(statuses),
+    ];
+
     console.log(table(data, tableOptions));
 }
 
-function displayAttackSummary(results) {
+function displayBenchmarkSummary(results) {
     const meta = [];
-    meta.push(["Type", results.type]);
+    meta.push([bold("Type"), results.type]);
     const durationInSeconds = results.duration / SECOND_IN_MILLISECONDS;
     meta.push([
-        "Effective Duration",
+        bold("Effective Duration"),
         `${durationInSeconds.toLocaleString()} seconds`,
     ]);
-    meta.push(["Times", `${results.times}`]);
+    meta.push([bold("Times"), results.times]);
     console.log(table(meta, tableOptions));
 }
 
-function displaySummary(attackResults) {
-    displayRequestsSummary(attackResults);
-    displayAttackSummary(attackResults);
-}
-
-function displayError(err) {
-    console.log(`${err.name}: ${err.message}\n`);
+function displaySummary(results) {
+    displayRequestsSummary(results);
+    displayBenchmarkSummary(results);
 }
 
 module.exports = {
     displaySummary,
-    displayError,
 };

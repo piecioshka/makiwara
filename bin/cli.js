@@ -1,98 +1,112 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-
-const http = require('http');
-const https = require('https');
+const http = require("http");
+const https = require("https");
 http.globalAgent.maxSockets = https.globalAgent.maxSockets = 512;
 // http.globalAgent.maxFreeSockets = https.globalAgent.maxFreeSockets = 512;
 
-const program = require('commander');
-const ora = require('ora');
-const isUrl = require('is-url');
-const bold = require('ansi-bold');
+const { Command } = require("commander");
+const program = new Command();
 
-const { attack } = require('../index');
-const HTTP_STATUS = require('../src/http-status-codes');
-const { displaySummary, displayError } = require('../src/display');
-const { makeRequest } = require('../src/make-requests');
+const ora = require("ora");
+const isUrl = require("is-url");
+const bold = require("ansi-bold");
 
-// eslint-disable-next-line no-sync
-const pkg = JSON.parse(fs.readFileSync(
-    path.join(__dirname, '..', 'package.json')
-).toString());
+const logger = require("../src/color-logs");
+const { benchmark } = require("../index");
+const HTTP_STATUS = require("../src/http-status-codes");
+const { displaySummary } = require("../src/display");
+const { makeRequest } = require("../src/make-requests");
+
+const pkg = require("../package.json");
 const STRATEGY_REGEXP = /^(concurrent|sequence)$/;
 
 program
     .version(pkg.version)
-    .option('-u, --url <url>', 'Define URL to attack. Ex. https://example.org/')
-    .option('-t, --timelimit [numbers]', 'Define list of time thresholds (in seconds). Ex. 10,100,1000')
-    .option('-s, --strategy <concurrent|sequence>', 'Define strategy for making requests')
-    .description('Example:\n\tmakiwara -u https://localhost:3000 -t 10 -s sequence')
+    .option(
+        "-u, --url <url>",
+        "Define URL to benchmark. Ex. https://example.org/"
+    )
+    .option(
+        "-t, --timelimit [numbers]",
+        "Define list of time thresholds (in seconds). Ex. 10,100,1000"
+    )
+    .option(
+        "-s, --strategy <concurrent|sequence>",
+        "Define strategy for making requests"
+    )
+    .description(
+        "Example:\n\tmakiwara -u https://localhost:3000 -t 10 -s sequence"
+    )
     .parse(process.argv);
 
-if (typeof program.url !== 'string') {
-    console.red('Error: url is not a string');
+const options = program.opts();
+
+if (typeof options.url !== "string") {
+    displayHeader();
+    logger.red("Error: url is not a string\n");
     program.help();
 }
 
-if (!isUrl(program.url)) {
-    console.red('Error: url is not correct format');
+if (!isUrl(options.url)) {
+    displayHeader();
+    logger.red("Error: url is not correct format\n");
     program.help();
 }
 
-if (!program.timelimit) {
-    program.timelimit = '1,3,5';
-    console.yellow('Ups... you did not put "timelimit" of thresholds');
-    console.yellow(`Thresholds are sets to: ${bold(program.timelimit)} (seconds)\n`);
+if (!options.timelimit) {
+    options.timelimit = "1,3,5";
+    logger.yellow('Ups... you did not define "timelimit" of thresholds');
+    logger.yellow(
+        `Thresholds are sets to: ${bold(options.timelimit)} (seconds)\n`
+    );
 }
 
-if (!(STRATEGY_REGEXP).test(program.strategy)) {
-    program.strategy = 'concurrent';
-    console.yellow('Ups... you did not put "strategy"');
-    console.yellow(`Default strategy is: ${program.strategy}\n`);
+if (!STRATEGY_REGEXP.test(options.strategy)) {
+    options.strategy = "concurrent";
+    logger.yellow('Ups... you did not define "strategy"');
+    logger.yellow(`Default strategy is: ${options.strategy}\n`);
 }
 
-const url = program.url;
-const timeLimit = program.timelimit.split(',').map(Number);
-const strategy = program.strategy;
+const url = options.url;
+const timeLimit = options.timelimit.split(",").map(Number);
+const strategy = options.strategy;
 let spinner = null;
 
 function displayDelimiter() {
-    console.gray('----------------------------------------------------\n');
+    logger.gray("----------------------------------------------------\n");
 }
 
 function displayHeader() {
-    console.log(`${pkg.name}, Version ${pkg.version}`);
-    const currentYear = new Date().getFullYear();
-    console.log(`Copyright 2017-${currentYear} ${pkg.author.name} <${pkg.author.email}> ${pkg.author.url}`);
-    console.log(`The ${pkg.license} License, https://piecioshka.mit-license.org/\n`);
-    console.log(`> ${pkg.description}\n`);
+    const author = `${pkg.author.name} <${pkg.author.email}> ${pkg.author.url}`;
+    console.log(`${pkg.name} v${pkg.version}`);
+    console.log(`Copyright (c) ${new Date().getFullYear()} ${author}\n`);
 }
 
 async function sendTestRequest(testUrl) {
     spinner.succeed(`Start testing... ${bold(testUrl)}`);
     const response = await makeRequest(testUrl, { agent: false });
     if (response.status !== HTTP_STATUS.OK) {
-        console.red(`HTTP Status Code: ${bold(response.status)}`);
-        console.yellow(`Response Body: ${bold(response.text)}`);
+        logger.red(`HTTP Status Code: ${bold(response.status)}`);
+        logger.yellow(`Response Body: ${bold(response.text)}`);
     }
-    spinner.succeed(`Testing completed (response: ${bold(response.text.length)} Bytes)`);
+    spinner.succeed(
+        `Testing completed (response: ${bold(response.text.length)} Bytes)`
+    );
 }
 
 async function main() {
     displayHeader();
 
-    spinner = ora('Loading').start();
+    spinner = ora("Loading").start();
 
     try {
         await sendTestRequest(url);
 
-        spinner.succeed('Start attacking...');
-        const results = await attack(url, timeLimit, strategy);
+        spinner.succeed("Start benchmarking...");
+        const results = await benchmark(url, timeLimit, strategy);
         spinner.stop();
-        spinner.succeed('Attacking completed\n');
+        spinner.succeed("Benchmarking completed\n");
 
         results.forEach((result, index) => {
             displaySummary(result);
@@ -103,7 +117,7 @@ async function main() {
         });
     } catch (err) {
         spinner.stop();
-        displayError(err);
+        logger.red(err);
     }
 
     // eslint-disable-next-line no-process-exit

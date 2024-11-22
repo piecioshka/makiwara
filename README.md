@@ -7,7 +7,7 @@
 [![license](https://img.shields.io/npm/l/makiwara.svg)](https://piecioshka.mit-license.org)
 [![github-ci](https://github.com/piecioshka/makiwara/actions/workflows/testing.yml/badge.svg)](https://github.com/piecioshka/makiwara/actions/workflows/testing.yml)
 
-🔨 Benchmark URL to gain HTTP requests limits
+🔨 CLI to benchmark URL to gain HTTP requests limits
 
 ## Install
 
@@ -18,9 +18,9 @@ npm install -g makiwara
 ## Usage
 
 ```javascript
-const { attack } = require('makiwara');
+const { benchmark } = require('makiwara');
 
-attack('https://example.org', [1, 5, 10], 'sequence')
+benchmark('https://example.org', [1, 5, 10], 'sequence')
     .then((result) => {
         console.log(result);
     })
@@ -41,7 +41,7 @@ Example:
 
 Options:
   -V, --version                         output the version number
-  -u, --url <url>                       Define URL to attack. Ex. https://example.org/
+  -u, --url <url>                       Define URL to benchmark. Ex. https://example.org/
   -t, --timelimit [numbers]             Define list of time thresholds (in seconds). Ex. 10,100,1000
   -s, --strategy <concurrent|sequence>  Define strategy for making requests
   -h, --help                            output usage information

@@ -18,8 +18,8 @@ async function makeRequest(url, options = {}) {
     const protocol = getProtocol(url);
     return new Promise((resolve, reject) => {
         protocol.get(url, options, (res) => {
-            res.addListener("data", (data) => {
-                response.text += data.toString();
+            res.addListener("data", (buffer) => {
+                response.text += buffer.toString();
             });
             res.addListener("error", (err) => {
                 reject(err);

@@ -1,6 +1,6 @@
 {
   "name": "makiwara",
-  "description": "🔨 Benchmark URL to gain HTTP requests limits",
+  "description": "🔨 CLI to benchmark URL to gain HTTP requests limits",
   "version": "2.1.9",
   "license": "MIT",
   "author": {
@@ -11,35 +11,34 @@
   "scripts": {
     "clear": "rm -rf dist/ coverage/ .nyc_output/",
     "clear:all": "rm -rf node_modules/ && npm run clear",
-    "test": "jasmine test/specs/*.js",
-    "coverage": "nyc npm run test && nyc report --reporter=html",
+    "test": "jest --watchAll=false",
+    "test:watch": "jest",
+    "coverage": "jest --watchAll=false --coverage",
     "lint": "eslint src/",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
+    "@types/jest": "^29.5.14",
     "ansi-bold": "^0.1.1",
-    "ansi-cyan": "^0.1.1",
     "ansi-gray": "^0.1.1",
     "ansi-red": "^0.1.1",
     "ansi-yellow": "^0.1.1",
     "axios": "^1.7.7",
-    "commander": "^12.1.0",
     "http-status-codes": "^2.3.0",
     "is-url": "^1.2.4",
+    "jest": "^29.7.0",
     "node-fetch": "^3.3.2",
-    "ora": "^8.1.0",
     "snyk": "^1.1293.1",
     "table": "^6.8.2"
   },
   "devDependencies": {
-    "@types/jasmine": "^5.1.4",
     "@types/node": "^22.7.5",
+    "commander": "^12.1.0",
     "eslint": "^8.6.0",
     "eslint-config-piecioshka": "^2.3.1",
-    "jasmine": "^5.4.0",
     "nock": "^13.5.5",
-    "nyc": "^15.1.0"
+    "ora": "^5.4.1"
   },
   "repository": {
     "type": "git",
@@ -56,9 +55,8 @@
     "README.md"
   ],
   "keywords": [
-    "app",
-    "test",
-    "attack",
+    "cli",
+    "benchmark",
     "multi",
     "statistics",
     "summary",
@@ -66,9 +64,7 @@
     "verify",
     "request",
     "time",
-    "analyze",
-    "cli",
-    "commonjs"
+    "analyze"
   ],
   "main": "./index.js",
   "bin": {

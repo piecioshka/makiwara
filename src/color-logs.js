@@ -1,17 +1,10 @@
 function setupColorLogFunction(name) {
     const fn = require(`ansi-${name}`);
-    console[name] = (...args) => console.log(...args.map(fn));
+    return (...args) => console.log(...args.map(fn));
 }
 
-setupColorLogFunction("red");
-setupColorLogFunction("yellow");
-setupColorLogFunction("gray");
-setupColorLogFunction("cyan");
-
-/**
- * @type console
- * @property red
- * @property yellow
- * @property gray
- * @property cyan
- */
+module.exports = {
+    red: setupColorLogFunction("red"),
+    yellow: setupColorLogFunction("yellow"),
+    gray: setupColorLogFunction("gray"),
+};

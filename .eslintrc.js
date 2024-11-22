@@ -13,11 +13,13 @@ module.exports = {
         commonjs: true,
         // amd: true,
         // jquery: true,
-        jasmine: true,
+        // jasmine: true,
     },
 
     // https://eslint.org/docs/rules/
     rules: {
+        "no-redeclare": ["off"],
+        "newline-per-chained-call": ["off"],
         "max-statements": ["off"],
         "comma-dangle": ["off"],
         "no-console": ["off"],
