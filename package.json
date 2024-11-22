@@ -47,6 +47,9 @@
   "bugs": {
     "url": "https://github.com/piecioshka/makiwara/issues"
   },
+  "engines": {
+    "node": ">=14"
+  },
   "files": [
     "bin",
     "src",
