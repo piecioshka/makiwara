@@ -88,18 +88,6 @@ Result:
 ╚════════════════════════╧════════════════════════════════╝
 ```
 
-## Unit tests
-
-```bash
-npm test
-```
-
-## Code coverage
-
-```bash
-npm run coverage
-```
-
 ## License
 
-[The MIT License](https://piecioshka.mit-license.org) @ 2017-2019
+[The MIT License](https://piecioshka.mit-license.org) @ 2017-2024
