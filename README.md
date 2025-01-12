@@ -90,4 +90,4 @@ Result:
 
 ## License
 
-[The MIT License](https://piecioshka.mit-license.org) @ 2017-2024
+[The MIT License](https://piecioshka.mit-license.org) @ 2017
