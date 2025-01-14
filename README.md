@@ -38,9 +38,11 @@ Installation:
 npm install -g makiwara
 ```
 
-```text
+```bash
 makiwara --help
+```
 
+```text
 Usage: cli [options]
 
 Example:
