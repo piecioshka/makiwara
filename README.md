@@ -1,5 +1,6 @@
 # makiwara
 
+[![cli-available](https://badgen.net/static/cli/available/?icon=terminal)](https://runkit.com/npm/makiwara)
 [![node version](https://img.shields.io/node/v/makiwara.svg)](https://www.npmjs.com/package/makiwara)
 [![npm version](https://badge.fury.io/js/makiwara.svg)](https://badge.fury.io/js/makiwara)
 [![downloads count](https://img.shields.io/npm/dt/makiwara.svg)](https://www.npmjs.com/package/makiwara)
@@ -9,13 +10,13 @@
 
 🔨 CLI to benchmark URL to gain HTTP requests limits
 
-## Install
+## Usage
+
+Installation:
 
 ```bash
-npm install -g makiwara
+npm install makiwara
 ```
-
-## Usage
 
 ```javascript
 const { benchmark } = require('makiwara');
@@ -30,6 +31,12 @@ benchmark('https://example.org', [1, 5, 10], 'sequence')
 ```
 
 ## CLI
+
+Installation:
+
+```bash
+npm install -g makiwara
+```
 
 ```text
 makiwara --help
