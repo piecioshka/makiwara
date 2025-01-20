@@ -42,7 +42,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/piecioshka/makiwara.git"
+    "url": "git+ssh://git@github.com/piecioshka/makiwara.git"
   },
   "bugs": {
     "url": "https://github.com/piecioshka/makiwara/issues"
