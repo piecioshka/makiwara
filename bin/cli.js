@@ -33,12 +33,23 @@ function parseArguments(argv) {
             return { version: true };
         }
         
-        if ((arg === '-u' || arg === '--url') && i + 1 < argv.length) {
+        if (arg === '-u' || arg === '--url') {
+            if (i + 1 >= argv.length || argv[i + 1].startsWith('-')) {
+                return { error: `Missing value for ${arg}` };
+            }
             options.url = argv[++i];
-        } else if ((arg === '-t' || arg === '--timelimit') && i + 1 < argv.length) {
+        } else if (arg === '-t' || arg === '--timelimit') {
+            if (i + 1 >= argv.length || argv[i + 1].startsWith('-')) {
+                return { error: `Missing value for ${arg}` };
+            }
             options.timelimit = argv[++i];
-        } else if ((arg === '-s' || arg === '--strategy') && i + 1 < argv.length) {
+        } else if (arg === '-s' || arg === '--strategy') {
+            if (i + 1 >= argv.length || argv[i + 1].startsWith('-')) {
+                return { error: `Missing value for ${arg}` };
+            }
             options.strategy = argv[++i];
+        } else {
+            return { error: `Unknown argument: ${arg}` };
         }
     }
     
@@ -60,6 +71,13 @@ Options:
 }
 
 const options = parseArguments(process.argv);
+
+if (options.error) {
+    displayHeader();
+    logger.red(`Error: ${options.error}\n`);
+    showHelp();
+    process.exit(1);
+}
 
 if (options.help) {
     displayHeader();
