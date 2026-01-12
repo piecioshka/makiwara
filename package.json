@@ -9,7 +9,7 @@
     "url": "https://piecioshka.pl/"
   },
   "scripts": {
-    "clear": "rm -rf dist/ coverage/ .nyc_output/",
+    "clear": "rm -rf dist/ coverage/",
     "clear:all": "rm -rf node_modules/ && npm run clear",
     "test": "jest --watchAll=false",
     "test:watch": "jest",
