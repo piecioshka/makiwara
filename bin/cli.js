@@ -7,7 +7,6 @@ http.globalAgent.maxSockets = https.globalAgent.maxSockets = 512;
 
 const minimist = require("minimist");
 
-const ora = require("ora");
 const isUrl = require("is-url");
 const bold = require("ansi-bold");
 
@@ -27,8 +26,8 @@ const argv = minimist(process.argv.slice(2), {
         t: "timelimit",
         s: "strategy",
         v: "version",
-        h: "help"
-    }
+        h: "help",
+    },
 });
 
 function displayHelp() {
@@ -62,7 +61,7 @@ if (argv.help) {
 const options = {
     url: argv.url,
     timelimit: argv.timelimit,
-    strategy: argv.strategy
+    strategy: argv.strategy,
 };
 
 if (typeof options.url !== "string") {
@@ -94,7 +93,6 @@ if (!STRATEGY_REGEXP.test(options.strategy)) {
 const url = options.url;
 const timeLimit = options.timelimit.split(",").map(Number);
 const strategy = options.strategy;
-let spinner = null;
 
 function displayDelimiter() {
     logger.gray("----------------------------------------------------\n");
@@ -107,13 +105,13 @@ function displayHeader() {
 }
 
 async function sendTestRequest(testUrl) {
-    spinner.succeed(`Start testing... ${bold(testUrl)}`);
+    console.log(`Start testing... ${bold(testUrl)}`);
     const response = await makeRequest(testUrl, { agent: false });
     if (response.status !== HTTP_STATUS.OK) {
         logger.red(`HTTP Status Code: ${bold(response.status)}`);
         logger.yellow(`Response Body: ${bold(response.text)}`);
     }
-    spinner.succeed(
+    console.log(
         `Testing completed (response: ${bold(response.text.length)} Bytes)`
     );
 }
@@ -121,15 +119,12 @@ async function sendTestRequest(testUrl) {
 async function main() {
     displayHeader();
 
-    spinner = ora("Loading").start();
-
     try {
         await sendTestRequest(url);
 
-        spinner.succeed("Start benchmarking...");
+        console.log("Start benchmarking...");
         const results = await benchmark(url, timeLimit, strategy);
-        spinner.stop();
-        spinner.succeed("Benchmarking completed\n");
+        console.log("Benchmarking completed\n");
 
         results.forEach((result, index) => {
             displaySummary(result);
@@ -139,7 +134,6 @@ async function main() {
             }
         });
     } catch (err) {
-        spinner.stop();
         logger.red(err);
     }
 

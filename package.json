@@ -37,8 +37,7 @@
     "@types/node": "^25.0.6",
     "eslint": "^8.6.0",
     "eslint-config-piecioshka": "^2.3.7",
-    "nock": "^14.0.10",
-    "ora": "^9.0.0"
+    "nock": "^14.0.10"
   },
   "repository": {
     "type": "git",

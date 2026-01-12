@@ -12,10 +12,7 @@ function pause(timeoutInSeconds) {
 }
 
 function status(i) {
-    if (global.spinner) {
-        global.spinner.text = `Loading: ${i} time(s)`;
-        global.spinner.render();
-    }
+    process.stdout.write(`\rLoading: ${i} time(s)`);
 }
 
 async function makeRequestsInConcurrentMode(url, durationInSeconds) {
