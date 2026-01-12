@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.7",
-    "commander": "^13.0.0",
     "eslint": "^8.6.0",
     "eslint-config-piecioshka": "^2.3.6",
     "nock": "^13.5.6",

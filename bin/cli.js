@@ -5,9 +5,6 @@ const https = require("https");
 http.globalAgent.maxSockets = https.globalAgent.maxSockets = 512;
 // http.globalAgent.maxFreeSockets = https.globalAgent.maxFreeSockets = 512;
 
-const { Command } = require("commander");
-const program = new Command();
-
 const ora = require("ora");
 const isUrl = require("is-url");
 const bold = require("ansi-bold");
@@ -21,37 +18,72 @@ const { makeRequest } = require("../src/make-requests");
 const pkg = require("../package.json");
 const STRATEGY_REGEXP = /^(concurrent|sequence)$/;
 
-program
-    .version(pkg.version)
-    .option(
-        "-u, --url <url>",
-        "Define URL to benchmark. Ex. https://example.org/"
-    )
-    .option(
-        "-t, --timelimit [numbers]",
-        "Define list of time thresholds (in seconds). Ex. 10,100,1000"
-    )
-    .option(
-        "-s, --strategy <concurrent|sequence>",
-        "Define strategy for making requests"
-    )
-    .description(
-        "Example:\n\tmakiwara -u https://localhost:3000 -t 10 -s sequence"
-    )
-    .parse(process.argv);
+// Parse command line arguments manually
+function parseArguments(argv) {
+    const options = {};
+    
+    for (let i = 2; i < argv.length; i++) {
+        const arg = argv[i];
+        
+        if (arg === '-h' || arg === '--help') {
+            return { help: true };
+        }
+        
+        if (arg === '-V' || arg === '--version') {
+            return { version: true };
+        }
+        
+        if ((arg === '-u' || arg === '--url') && i + 1 < argv.length) {
+            options.url = argv[++i];
+        } else if ((arg === '-t' || arg === '--timelimit') && i + 1 < argv.length) {
+            options.timelimit = argv[++i];
+        } else if ((arg === '-s' || arg === '--strategy') && i + 1 < argv.length) {
+            options.strategy = argv[++i];
+        }
+    }
+    
+    return options;
+}
 
-const options = program.opts();
+function showHelp() {
+    console.log(`Usage: cli [options]
+
+Example:
+    makiwara -u https://localhost:3000 -t 10 -s sequence
+
+Options:
+  -V, --version                         output the version number
+  -u, --url <url>                       Define URL to benchmark. Ex. https://example.org/
+  -t, --timelimit [numbers]             Define list of time thresholds (in seconds). Ex. 10,100,1000
+  -s, --strategy <concurrent|sequence>  Define strategy for making requests
+  -h, --help                            output usage information`);
+}
+
+const options = parseArguments(process.argv);
+
+if (options.help) {
+    displayHeader();
+    showHelp();
+    process.exit(0);
+}
+
+if (options.version) {
+    console.log(pkg.version);
+    process.exit(0);
+}
 
 if (typeof options.url !== "string") {
     displayHeader();
     logger.red("Error: url is not a string\n");
-    program.help();
+    showHelp();
+    process.exit(1);
 }
 
 if (!isUrl(options.url)) {
     displayHeader();
     logger.red("Error: url is not correct format\n");
-    program.help();
+    showHelp();
+    process.exit(1);
 }
 
 if (!options.timelimit) {
