@@ -5,8 +5,7 @@ const https = require("https");
 http.globalAgent.maxSockets = https.globalAgent.maxSockets = 512;
 // http.globalAgent.maxFreeSockets = https.globalAgent.maxFreeSockets = 512;
 
-const { Command } = require("commander");
-const program = new Command();
+const minimist = require("minimist");
 
 const ora = require("ora");
 const isUrl = require("is-url");
@@ -21,37 +20,61 @@ const { makeRequest } = require("../src/make-requests");
 const pkg = require("../package.json");
 const STRATEGY_REGEXP = /^(concurrent|sequence)$/;
 
-program
-    .version(pkg.version)
-    .option(
-        "-u, --url <url>",
-        "Define URL to benchmark. Ex. https://example.org/"
-    )
-    .option(
-        "-t, --timelimit [numbers]",
-        "Define list of time thresholds (in seconds). Ex. 10,100,1000"
-    )
-    .option(
-        "-s, --strategy <concurrent|sequence>",
-        "Define strategy for making requests"
-    )
-    .description(
-        "Example:\n\tmakiwara -u https://localhost:3000 -t 10 -s sequence"
-    )
-    .parse(process.argv);
+const argv = minimist(process.argv.slice(2), {
+    string: ["url", "timelimit", "strategy"],
+    alias: {
+        u: "url",
+        t: "timelimit",
+        s: "strategy",
+        v: "version",
+        h: "help"
+    }
+});
 
-const options = program.opts();
+function displayHelp() {
+    console.log(`
+${pkg.name} v${pkg.version}
+
+Usage: makiwara [options]
+
+Options:
+  -u, --url <url>              Define URL to benchmark. Ex. https://example.org/
+  -t, --timelimit [numbers]    Define list of time thresholds (in seconds). Ex. 10,100,1000
+  -s, --strategy <concurrent|sequence>  Define strategy for making requests
+  -v, --version                Show version number
+  -h, --help                   Show help
+
+Example:
+  makiwara -u https://localhost:3000 -t 10 -s sequence
+`);
+    process.exit(0);
+}
+
+if (argv.version) {
+    console.log(pkg.version);
+    process.exit(0);
+}
+
+if (argv.help) {
+    displayHelp();
+}
+
+const options = {
+    url: argv.url,
+    timelimit: argv.timelimit,
+    strategy: argv.strategy
+};
 
 if (typeof options.url !== "string") {
     displayHeader();
     logger.red("Error: url is not a string\n");
-    program.help();
+    displayHelp();
 }
 
 if (!isUrl(options.url)) {
     displayHeader();
     logger.red("Error: url is not correct format\n");
-    program.help();
+    displayHelp();
 }
 
 if (!options.timelimit) {
