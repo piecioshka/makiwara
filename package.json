@@ -19,26 +19,26 @@
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
-    "@types/jest": "^29.5.14",
+    "@types/jest": "^30.0.0",
     "ansi-bold": "^0.1.1",
     "ansi-gray": "^0.1.1",
     "ansi-red": "^0.1.1",
     "ansi-yellow": "^0.1.1",
-    "axios": "^1.7.9",
+    "axios": "^1.13.2",
     "http-status-codes": "^2.3.0",
     "is-url": "^1.2.4",
-    "jest": "^29.7.0",
+    "jest": "^30.2.0",
     "minimist": "^1.2.8",
     "node-fetch": "^3.3.2",
-    "snyk": "^1.1295.0",
+    "snyk": "^1.1301.2",
     "table": "^6.9.0"
   },
   "devDependencies": {
-    "@types/node": "^22.10.7",
+    "@types/node": "^25.0.6",
     "eslint": "^8.6.0",
-    "eslint-config-piecioshka": "^2.3.6",
-    "nock": "^13.5.6",
-    "ora": "^5.4.1"
+    "eslint-config-piecioshka": "^2.3.7",
+    "nock": "^14.0.10",
+    "ora": "^9.0.0"
   },
   "repository": {
     "type": "git",
