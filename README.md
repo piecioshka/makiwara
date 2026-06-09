@@ -10,6 +10,8 @@
 
 🔨 CLI to benchmark URL to gain HTTP requests limits
 
+![](demo/makiwara.gif)
+
 ## Usage
 
 Installation:
