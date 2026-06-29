@@ -3,6 +3,6 @@ npm-debug.log
 coverage/
 .nyc_output/
 dist/
-types/
+/types/
 tmp/
 !.vscode/
