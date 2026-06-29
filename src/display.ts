@@ -1,23 +1,27 @@
-const { table } = require("table");
-const HTTPStatusCodes = require("http-status-codes");
-const bold = require("ansi-bold");
+import { table, TableUserConfig } from "table";
+import * as HTTPStatusCodes from "http-status-codes";
+import bold from "ansi-bold";
 
-const logger = require("../src/color-logs");
+import * as logger from "./color-logs";
+import { BenchmarkResult } from "./make-requests";
 
 const SECOND_IN_MILLISECONDS = 1000;
 
-const tableOptions = {
+const tableOptions: TableUserConfig = {
     columns: {
         0: { width: 22 },
         1: { width: 30 },
     },
 };
 
-function displayRequestsSummary(results) {
-    const aggregateResults = results.requests.reduce((acc, item) => {
-        acc[item.status] = acc[item.status] ? acc[item.status] + 1 : 1;
-        return acc;
-    }, {});
+function displayRequestsSummary(results: BenchmarkResult): void {
+    const aggregateResults = results.requests.reduce<Record<number, number>>(
+        (acc, item) => {
+            acc[item.status] = acc[item.status] ? acc[item.status] + 1 : 1;
+            return acc;
+        },
+        {}
+    );
 
     const codes = Object.keys(aggregateResults).map(Number);
 
@@ -26,13 +30,13 @@ function displayRequestsSummary(results) {
         return;
     }
 
-    const statuses = codes.reduce((acc, code) => {
+    const statuses = codes.reduce<Record<string, number>>((acc, code) => {
         const label = HTTPStatusCodes.getReasonPhrase(code);
         acc[`${code} ${label}`] = aggregateResults[code];
         return acc;
     }, {});
 
-    const data = [
+    const data: (string | number)[][] = [
         ["HTTP Status Code", "Requests quantity"].map(bold),
         ...Object.entries(statuses),
     ];
@@ -40,8 +44,8 @@ function displayRequestsSummary(results) {
     console.log(table(data, tableOptions));
 }
 
-function displayBenchmarkSummary(results) {
-    const meta = [];
+function displayBenchmarkSummary(results: BenchmarkResult): void {
+    const meta: (string | number)[][] = [];
     meta.push([bold("Type"), results.type]);
     const durationInSeconds = results.duration / SECOND_IN_MILLISECONDS;
     meta.push([
@@ -52,11 +56,9 @@ function displayBenchmarkSummary(results) {
     console.log(table(meta, tableOptions));
 }
 
-function displaySummary(results) {
+function displaySummary(results: BenchmarkResult): void {
     displayRequestsSummary(results);
     displayBenchmarkSummary(results);
 }
 
-module.exports = {
-    displaySummary,
-};
+export { displaySummary };

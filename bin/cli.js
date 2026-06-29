@@ -10,11 +10,11 @@ const minimist = require("minimist");
 const isUrl = require("is-url");
 const bold = require("ansi-bold");
 
-const logger = require("../src/color-logs");
-const { benchmark } = require("../index");
-const HTTP_STATUS = require("../src/http-status-codes");
-const { displaySummary } = require("../src/display");
-const { makeRequest } = require("../src/make-requests");
+const logger = require("../dist/color-logs");
+const { benchmark } = require("../dist/index");
+const HTTP_STATUS = require("../dist/http-status-codes");
+const { displaySummary } = require("../dist/display");
+const { makeRequest } = require("../dist/make-requests");
 
 const pkg = require("../package.json");
 const STRATEGY_REGEXP = /^(concurrent|sequence)$/;

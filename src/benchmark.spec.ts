@@ -1,6 +1,8 @@
-const nock = require("nock");
-const HTTP_STATUS = require("./http-status-codes");
-const { benchmark } = require("./benchmark");
+import { describe, it, expect } from "vitest";
+import nock from "nock";
+
+import * as HTTP_STATUS from "./http-status-codes";
+import { benchmark } from "./benchmark";
 
 describe("Benchmark", () => {
     it("benchmark should send request", async () => {

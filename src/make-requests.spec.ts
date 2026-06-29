@@ -1,10 +1,12 @@
-const nock = require("nock");
-const {
+import { describe, it, expect, beforeEach } from "vitest";
+import nock from "nock";
+
+import {
     makeRequest,
     makeRequestsInConcurrentMode,
     makeRequestsInSequenceMode,
-} = require("./make-requests");
-const HTTP_STATUS = require("./http-status-codes");
+} from "./make-requests";
+import * as HTTP_STATUS from "./http-status-codes";
 
 describe("makeRequests", () => {
     const targetUrl = "https://localhost/";
@@ -23,19 +25,15 @@ describe("makeRequests", () => {
         expect(response.status).toEqual(HTTP_STATUS.NO_CONTENT);
     });
 
-    it.skip("should make HTTP requests in concurrent mode", async (done) => {
+    it.skip("should make HTTP requests in concurrent mode", async () => {
         const results = await makeRequestsInConcurrentMode(targetUrl, 1);
-        setTimeout(() => {
-            expect(results.requests.length).toBeGreaterThan(10);
-            done();
-        }, 100);
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        expect(results.requests.length).toBeGreaterThan(10);
     });
 
-    it.skip("should make HTTP requests in sequence mode", async (done) => {
+    it.skip("should make HTTP requests in sequence mode", async () => {
         const results = await makeRequestsInSequenceMode(targetUrl, 1);
-        setTimeout(() => {
-            expect(results.requests.length).toBeLessThan(11);
-            done();
-        }, 100);
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        expect(results.requests.length).toBeLessThan(11);
     });
 });
