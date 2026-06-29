@@ -1,26 +1,38 @@
-const http = require("http");
+import * as http from "http";
 
 // const makeRequest = require('node-fetch');
-const makeRequest = require("./local-fetch");
+import makeRequest, { FetchResponse } from "./local-fetch";
 
 const SECOND_IN_MILLISECONDS = 1000;
 
-function pause(timeoutInSeconds) {
+export interface BenchmarkResult {
+    type: string;
+    startTime: number;
+    endTime: number;
+    duration: number;
+    times: number;
+    requests: FetchResponse[];
+}
+
+function pause(timeoutInSeconds: number): Promise<void> {
     return new Promise((resolve) => {
         setTimeout(resolve, timeoutInSeconds * SECOND_IN_MILLISECONDS);
     });
 }
 
-function status(i) {
+function status(i: number): void {
     process.stdout.write(`\rLoading: ${i} time(s)`);
 }
 
-async function makeRequestsInConcurrentMode(url, durationInSeconds) {
+async function makeRequestsInConcurrentMode(
+    url: string,
+    durationInSeconds: number
+): Promise<BenchmarkResult> {
     if (isNaN(durationInSeconds)) {
         throw new TypeError("duration should be a number (ex. 1,3,5)");
     }
 
-    const requests = [];
+    const requests: FetchResponse[] = [];
     const startTime = Date.now();
     const durationInMilliseconds = durationInSeconds * SECOND_IN_MILLISECONDS;
     let i = 0;
@@ -61,12 +73,15 @@ async function makeRequestsInConcurrentMode(url, durationInSeconds) {
     };
 }
 
-async function makeRequestsInSequenceMode(url, durationInSeconds) {
+async function makeRequestsInSequenceMode(
+    url: string,
+    durationInSeconds: number
+): Promise<BenchmarkResult> {
     if (isNaN(durationInSeconds)) {
         throw new TypeError("duration should be a number (ex. 1,3,5)");
     }
 
-    const requests = [];
+    const requests: FetchResponse[] = [];
     const startTime = Date.now();
     const durationInMilliseconds = durationInSeconds * SECOND_IN_MILLISECONDS;
     let i = 0;
@@ -100,8 +115,4 @@ async function makeRequestsInSequenceMode(url, durationInSeconds) {
     };
 }
 
-module.exports = {
-    makeRequest,
-    makeRequestsInSequenceMode,
-    makeRequestsInConcurrentMode,
-};
+export { makeRequest, makeRequestsInSequenceMode, makeRequestsInConcurrentMode };

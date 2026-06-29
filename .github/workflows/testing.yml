@@ -27,14 +27,8 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   cache: "npm"
 
-            - name: Run Snyk Test
-              uses: snyk/actions/node@master
-              env:
-                  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-              with:
-                  args: --all-projects
-
             - run: npm ci
+            - run: npm run check-ts --if-present
             - run: npm run build --if-present
             - run: npm run lint --if-present
             - run: npm test

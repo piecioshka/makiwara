@@ -1,1 +1,3 @@
-module.exports = require("./src/benchmark");
+"use strict";
+
+module.exports = require("./dist/index");
