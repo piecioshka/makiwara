@@ -1,7 +1,7 @@
 {
   "name": "makiwara",
   "description": "🔨 CLI to benchmark URL to gain HTTP requests limits",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "license": "MIT",
   "author": {
     "name": "Piotr Kowalski",
@@ -16,7 +16,8 @@
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "ansi-bold": "^0.1.1",
