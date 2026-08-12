@@ -1,7 +1,6 @@
 # makiwara
 
-![typescript](https://img.shields.io/badge/built%20with-TypeScript-3178c6.svg)
-
+[![built with TypeScript](https://img.shields.io/badge/built%20with-TypeScript-3178c6.svg)](https://www.typescriptlang.org/)
 [![cli-available](https://badgen.net/static/cli/available/?icon=terminal)](#cli)
 [![node version](https://img.shields.io/node/v/makiwara.svg)](https://www.npmjs.com/package/makiwara)
 [![npm version](https://badge.fury.io/js/makiwara.svg)](https://badge.fury.io/js/makiwara)
