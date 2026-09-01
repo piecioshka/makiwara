@@ -7,7 +7,7 @@
 [![downloads count](https://img.shields.io/npm/dt/makiwara.svg)](https://www.npmjs.com/package/makiwara)
 [![size](https://packagephobia.com/badge?p=makiwara)](https://packagephobia.com/result?p=makiwara)
 [![license](https://img.shields.io/npm/l/makiwara.svg)](https://piecioshka.mit-license.org)
-[![github-ci](https://github.com/piecioshka/makiwara/actions/workflows/testing.yml/badge.svg)](https://github.com/piecioshka/makiwara/actions/workflows/testing.yml)
+[![github-ci](https://github.com/piecioshka/makiwara/actions/workflows/ci.yml/badge.svg)](https://github.com/piecioshka/makiwara/actions/workflows/ci.yml)
 
 🔨 CLI to benchmark URL to gain HTTP requests limits
 
